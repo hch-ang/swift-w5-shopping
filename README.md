@@ -30,9 +30,15 @@
 
 ![image-20210201132333021](README.assets/image-20210201132333021.png)
 
-### JsonModels 생성
+### JsonModels 생성 0201 17:05
 
 - StoreItem 구조체 생성
+
+### CollectionView layout 설정 및 header 추가 0201 17:55
+
+- supplementary view로 header 추가
+
+![image-20210201175252653](README.assets/image-20210201175252653.png)
 
 
 
