@@ -18,6 +18,10 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
         navigationItem.title = "카카오 쇼핑"
         
+        for itemCase in ItemManager.jsonPath.allCases {
+            ItemManager.loadData(itemCase: itemCase)
+        }
+        
         setShoppingListView()
         configureDataSource()
     }

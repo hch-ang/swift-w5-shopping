@@ -40,5 +40,9 @@
 
 ![image-20210201175252653](README.assets/image-20210201175252653.png)
 
+### HTTP 요청 받기
+
+- http요청을 받는 loadData 메소드 구현
+
 
 
