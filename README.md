@@ -23,3 +23,10 @@
 
 ![image-20210201114850409](README.assets/image-20210201114850409.png)
 
+### CollectionView 생성 0201 13:25
+
+- colletionView의 layout 설정(item, group, section 설정)
+- shoppingListView에 오토레이아웃 적용
+
+![image-20210201132333021](README.assets/image-20210201132333021.png)
+
