@@ -40,9 +40,12 @@
 
 ![image-20210201175252653](README.assets/image-20210201175252653.png)
 
-### HTTP 요청 받기
+### HTTP 요청 받기 : 0201 1000
 
 - http요청을 받는 loadData 메소드 구현
 
+### HTTPRequestManager 생성 0201 1020
 
+- 네트워크 관리 객체(HTTPRequestManager 클래스) 생성
+- ItemManager 클래스에 getItems, getCount, subscript메소드 추가
 
