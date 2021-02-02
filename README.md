@@ -77,3 +77,7 @@
 - gestureRecognizer 등록, 터치 시 NotificationCenter를 통해 cellTouched post
 - MainViewController를 observer로 등록
 
+### JsonModel 추가 0202 20:35
+
+- json을 struct로 변환해주는 사이트를 통해 `https://store.kakao.com/a/{storeDomain}/product/{productId}/detail`에서 받아오는 json 형태에 맞는 구조체 추가
+
