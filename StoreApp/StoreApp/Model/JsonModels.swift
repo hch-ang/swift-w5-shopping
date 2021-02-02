@@ -8,7 +8,7 @@
 import Foundation
 
 class ItemManager {
-    enum jsonPath : String, CaseIterable {
+    enum ItemType : String, CaseIterable {
     case best
     case mask
     case grocery
@@ -20,8 +20,8 @@ class ItemManager {
     static var groceryItems : [StoreItem] = []
     static var fryingpanItems : [StoreItem] = []
     
-    static func saveItems(itemCase : jsonPath, resultArray : [StoreItem]) {
-        switch itemCase {
+    static func saveItems(itemType : ItemType, resultArray : [StoreItem]) {
+        switch itemType {
         case .best:
             bestItems = resultArray
         case .fryingpan:
@@ -33,8 +33,8 @@ class ItemManager {
         }
     }
     
-    static func getItems(itemCase : jsonPath) -> [StoreItem] {
-        switch itemCase {
+    static func getItems(itemType : ItemType) -> [StoreItem] {
+        switch itemType {
         case .best:
             return bestItems
         case .fryingpan:
@@ -46,8 +46,8 @@ class ItemManager {
         }
     }
     
-    static func getCount(itemCase : jsonPath) -> Int {
-        switch itemCase {
+    static func getCount(itemType : ItemType) -> Int {
+        switch itemType {
         case .best:
             return bestItems.count
         case .fryingpan:
@@ -59,8 +59,8 @@ class ItemManager {
         }
     }
     
-    static func subccript(itemCase : jsonPath, index : Int) -> StoreItem {
-        switch itemCase {
+    static func subccript(itemType : ItemType, index : Int) -> StoreItem {
+        switch itemType {
         case .best:
             return bestItems[index]
         case .fryingpan:

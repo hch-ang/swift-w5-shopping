@@ -49,3 +49,7 @@
 - 네트워크 관리 객체(HTTPRequestManager 클래스) 생성
 - ItemManager 클래스에 getItems, getCount, subscript메소드 추가
 
+### 타입 이름 변경 0202 1030
+
+- jsonPath -> ItemType
+
