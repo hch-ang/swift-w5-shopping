@@ -30,12 +30,19 @@ class HTTPRequestManager {
     
     static func getImageUsingURLString(urlString : String, completionHandler : @escaping (Data) -> Void) {
         guard let imageURL = URL(string: urlString) else { return }
+        
+        if let imageData = MyFileManager.getImageDataFromCache(imageURL: imageURL) {
+            completionHandler(imageData)
+            return
+        }
+        
         URLSession.shared.dataTask(with: imageURL) {
             data, response, error in
             guard error == nil else {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                MyFileManager.saveImageDataIntoCache(imageURL: imageURL, imageData: data)
                 completionHandler(data)
             }
         }.resume()

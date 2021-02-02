@@ -62,3 +62,11 @@
 
 ![image-20210202142434128](README.assets/image-20210202142434128.png)
 
+### MyFileManager 생성 0202 17:00
+
+- MyFileManager Class 생성
+- getImageDataFromCache, saveImageDataIntoCache, createFilePath 메소드 생성
+- HTTPRequestManager의 getImageUsingURLString 메소드에서 바로 URL을 타고 Image를 가져오는 것이 아니라 MyFileManager를 통해 Cache에 해당 image가 있는지 확인 후 없는 경우에면 URLSession을 통해 가져오도록 수정
+
+![image-20210202170017430](README.assets/image-20210202170017430.png)
+
