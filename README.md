@@ -49,3 +49,35 @@
 - 네트워크 관리 객체(HTTPRequestManager 클래스) 생성
 - ItemManager 클래스에 getItems, getCount, subscript메소드 추가
 
+### 타입 이름 변경 0202 1030
+
+- jsonPath -> ItemType
+
+### 셀 정보 넣기 0202 1430
+
+- ShoppingItemCell class 생성(xib도 생성)
+- ProductImage, productName, groupDiscountPrice, originalPrice, groudDiscountUserCount outlet 연결 후 배치
+- setCellData 메소드 추가
+- HTTPRequestManager에 getImageURLString 메소드 추가
+
+![image-20210202142434128](README.assets/image-20210202142434128.png)
+
+### MyFileManager 생성 0202 17:00
+
+- MyFileManager Class 생성
+- getImageDataFromCache, saveImageDataIntoCache, createFilePath 메소드 생성
+- HTTPRequestManager의 getImageUsingURLString 메소드에서 바로 URL을 타고 Image를 가져오는 것이 아니라 MyFileManager를 통해 Cache에 해당 image가 있는지 확인 후 없는 경우에면 URLSession을 통해 가져오도록 수정
+
+![image-20210202170017430](README.assets/image-20210202170017430.png)
+
+### Cell touch에 반응 0202 18:00
+
+- StoreItem에 storeDomain, productId 추가
+- ShoppingItemCell에 변수 추가 : storeDomain, productId
+- gestureRecognizer 등록, 터치 시 NotificationCenter를 통해 cellTouched post
+- MainViewController를 observer로 등록
+
+### JsonModel 추가 0202 20:35
+
+- json을 struct로 변환해주는 사이트를 통해 `https://store.kakao.com/a/{storeDomain}/product/{productId}/detail`에서 받아오는 json 형태에 맞는 구조체 추가
+

@@ -8,31 +8,36 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
     var shoppingListView : UICollectionView! = nil
-    var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>! = nil
     let sectionTitles = ["베스트", "마스크", "잡화", "프라이팬"]
+    var snapshot : NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         navigationItem.title = "카카오 쇼핑"
         
-        for itemCase in ItemManager.jsonPath.allCases {
-            HTTPRequestManager.getJsonData(itemCase: itemCase)
-        }
-        
         setShoppingListView()
         configureDataSource()
+        setNotificationListener()
+
+        for itemType in ItemManager.ItemType.allCases {
+            ItemManager.setItems(itemType: itemType) {
+                self.setSnapshotData(itemType: itemType)
+            }
+        }
+
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let section = NSCollectionLayoutSection(group: group)
         let sectionHeaderFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
@@ -40,6 +45,11 @@ class MainViewController: UIViewController {
         section.boundarySupplementaryItems = [sectionHeader]
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    func setSnapshotData(itemType : ItemManager.ItemType) {
+        snapshot.appendItems(ItemManager.getItems(itemType: itemType), toSection: itemType)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func configureDataSource() {
@@ -51,23 +61,23 @@ class MainViewController: UIViewController {
         }
 
 
-        dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: shoppingListView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
-            return UICollectionViewCell()
-//            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        dataSource = UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>(collectionView: shoppingListView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: StoreItem) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShoppingItemCell", for: indexPath) as? ShoppingItemCell else { return UICollectionViewCell() }
+            cell.setCellData(item: identifier)
+            return cell
         }
         
         dataSource.supplementaryViewProvider = { (view, kind, index) in
             return self.shoppingListView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
-        snapshot.appendSections([0])
-        snapshot.appendSections([1])
-        snapshot.appendSections([2])
-        snapshot.appendSections([3])
+        snapshot = NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>()
+        snapshot.appendSections([.best])
+        snapshot.appendSections([.fryingpan])
+        snapshot.appendSections([.grocery])
+        snapshot.appendSections([.mask])
 
-        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     func setShoppingListView() {
@@ -80,7 +90,21 @@ class MainViewController: UIViewController {
         shoppingListView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor).isActive = true
         shoppingListView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor).isActive = true
         shoppingListView.backgroundColor = .white
+        
+        shoppingListView.register(UINib(nibName: "ShoppingItemCell", bundle: nil), forCellWithReuseIdentifier: "ShoppingItemCell")
     }
-
 }
+
+extension MainViewController {
+    private func setNotificationListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showDetailView(_:)), name: .cellTouched, object: nil)
+    }
+    
+    @objc func showDetailView(_ notification : Notification) {
+        guard let productId = notification.userInfo?["productId"] else { return }
+        guard let productName = notification.userInfo?["productName"] else { return }
+        guard let storeDomain = notification.userInfo?["storeDomain"] else { return }
+    }
+}
+
 
