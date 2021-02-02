@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
         
         setShoppingListView()
         configureDataSource()
+        setNotificationListener()
 
         for itemType in ItemManager.ItemType.allCases {
             ItemManager.setItems(itemType: itemType) {
@@ -92,8 +93,18 @@ class MainViewController: UIViewController {
         
         shoppingListView.register(UINib(nibName: "ShoppingItemCell", bundle: nil), forCellWithReuseIdentifier: "ShoppingItemCell")
     }
-
 }
 
+extension MainViewController {
+    private func setNotificationListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showDetailView(_:)), name: .cellTouched, object: nil)
+    }
+    
+    @objc func showDetailView(_ notification : Notification) {
+        guard let productId = notification.userInfo?["productId"] else { return }
+        guard let productName = notification.userInfo?["productName"] else { return }
+        guard let storeDomain = notification.userInfo?["storeDomain"] else { return }
+    }
+}
 
 

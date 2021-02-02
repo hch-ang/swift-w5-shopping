@@ -14,10 +14,14 @@ class ShoppingItemCell: UICollectionViewCell {
     @IBOutlet weak var groupDiscountedPrice: UILabel!
     @IBOutlet weak var originalPrice: UILabel!
     @IBOutlet weak var groupDiscountUserCount: UILabel!
+    private var storeDomain = ""
+    private var productId = 0
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         setCellSubviews()
+        setGestureGecognizer()
     }
     
     
@@ -36,6 +40,8 @@ class ShoppingItemCell: UICollectionViewCell {
         }
         originalPrice.text = "\(String(item.originalPrice))원"
         groupDiscountUserCount.text = "현재 \(String(item.groupDiscountUserCount ?? 0))명 딜 참여중"
+        storeDomain = item.storeDomain
+        productId = item.productId
     }
     
     private func setCellSubviews() {
@@ -94,4 +100,18 @@ class ShoppingItemCell: UICollectionViewCell {
         groupDiscountUserCount.sizeToFit()
         groupDiscountUserCount.font = UIFont.systemFont(ofSize: 14)
     }
+    
+    private func setGestureGecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTouched))
+        contentView.addGestureRecognizer(gestureRecognizer)
+        contentView.isUserInteractionEnabled = true
+    }
+    
+    @objc func cellTouched() {
+        NotificationCenter.default.post(name: .cellTouched, object: nil, userInfo: ["productName" : productName.text!, "productId" : productId, "storeDomain" : storeDomain])
+    }
+}
+
+extension Notification.Name {
+    static let cellTouched = Notification.Name("cellTouched")
 }

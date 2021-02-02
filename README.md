@@ -70,3 +70,10 @@
 
 ![image-20210202170017430](README.assets/image-20210202170017430.png)
 
+### Cell touch에 반응 0202 18:00
+
+- StoreItem에 storeDomain, productId 추가
+- ShoppingItemCell에 변수 추가 : storeDomain, productId
+- gestureRecognizer 등록, 터치 시 NotificationCenter를 통해 cellTouched post
+- MainViewController를 observer로 등록
+

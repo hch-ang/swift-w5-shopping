@@ -100,9 +100,11 @@ struct StoreItem: Codable, Hashable {
     let groupDiscountedPrice: Int?
     let originalPrice: Int
     let groupDiscountUserCount: Int?
+    let storeDomain : String
+    let productId : Int
 
     enum CodingKeys: String, CodingKey {
-        case productName, productImage, originalPrice, groupDiscountedPrice, groupDiscountUserCount
+        case productName, productImage, originalPrice, groupDiscountedPrice, groupDiscountUserCount, storeDomain, productId
     }
     
 }
