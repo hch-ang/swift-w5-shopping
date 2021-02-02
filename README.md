@@ -53,3 +53,12 @@
 
 - jsonPath -> ItemType
 
+### 셀 정보 넣기 0202 1430
+
+- ShoppingItemCell class 생성(xib도 생성)
+- ProductImage, productName, groupDiscountPrice, originalPrice, groudDiscountUserCount outlet 연결 후 배치
+- setCellData 메소드 추가
+- HTTPRequestManager에 getImageURLString 메소드 추가
+
+![image-20210202142434128](README.assets/image-20210202142434128.png)
+

@@ -20,16 +20,36 @@ class ItemManager {
     static var groceryItems : [StoreItem] = []
     static var fryingpanItems : [StoreItem] = []
     
-    static func saveItems(itemType : ItemType, resultArray : [StoreItem]) {
+    static func setItems(itemType : ItemType, completionHandler : @escaping () -> Void) {
         switch itemType {
         case .best:
-            bestItems = resultArray
+            HTTPRequestManager.getJsonData(itemType: itemType) {
+                (itemArray) in
+                bestItems = itemArray
+                completionHandler()
+            }
+            return
         case .fryingpan:
-            fryingpanItems = resultArray
+            HTTPRequestManager.getJsonData(itemType: itemType) {
+                (itemArray) in
+                fryingpanItems = itemArray
+                completionHandler()
+            }
+            return
         case .grocery:
-            groceryItems = resultArray
+            HTTPRequestManager.getJsonData(itemType: itemType) {
+                (itemArray) in
+                groceryItems = itemArray
+                completionHandler()
+            }
+            return
         case .mask:
-            maskItems = resultArray
+            HTTPRequestManager.getJsonData(itemType: itemType) {
+                (itemArray) in
+                maskItems = itemArray
+                completionHandler()
+            }
+            return
         }
     }
     
@@ -73,7 +93,8 @@ class ItemManager {
     }
 }
 
-struct StoreItem: Codable {
+struct StoreItem: Codable, Hashable {
+    let identifier = UUID()
     let productName: String
     let productImage: String
     let groupDiscountedPrice: Int?
@@ -83,4 +104,6 @@ struct StoreItem: Codable {
     enum CodingKeys: String, CodingKey {
         case productName, productImage, originalPrice, groupDiscountedPrice, groupDiscountUserCount
     }
+    
 }
+

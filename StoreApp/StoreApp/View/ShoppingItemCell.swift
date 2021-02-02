@@ -1,0 +1,97 @@
+//
+//  ShoppingItemCell.swift
+//  StoreApp
+//
+//  Created by Hochang Lee on 2021/02/02.
+//
+
+import UIKit
+
+class ShoppingItemCell: UICollectionViewCell {
+
+    @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var groupDiscountedPrice: UILabel!
+    @IBOutlet weak var originalPrice: UILabel!
+    @IBOutlet weak var groupDiscountUserCount: UILabel!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        setCellSubviews()
+    }
+    
+    
+    func setCellData(item : StoreItem) {
+        HTTPRequestManager.getImageUsingURLString(urlString: item.productImage) {
+            (data) in
+            DispatchQueue.main.async {
+                self.productImage.image = UIImage(data: data)
+            }
+        }
+        productName.text = item.productName
+        if let price = item.groupDiscountedPrice {
+            groupDiscountedPrice.text = "톡딜가 \(String(price))원"
+        } else {
+            groupDiscountedPrice.text = ""
+        }
+        originalPrice.text = "\(String(item.originalPrice))원"
+        groupDiscountUserCount.text = "현재 \(String(item.groupDiscountUserCount ?? 0))명 딜 참여중"
+    }
+    
+    private func setCellSubviews() {
+        setProductImage()
+        setProductName()
+        setGroupDiscpontedPrice()
+        setOriginalPrice()
+        setGroupDiscountUserCOunt()
+    }
+    
+    private func setProductImage() {
+        contentView.addSubview(productImage)
+        productImage.translatesAutoresizingMaskIntoConstraints = false
+        productImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        productImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8).isActive = true
+        productImage.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8).isActive = true
+    }
+    
+    private func setProductName() {
+        contentView.addSubview(productName)
+        productName.translatesAutoresizingMaskIntoConstraints = false
+        productName.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 10).isActive = true
+        productName.leadingAnchor.constraint(equalTo: productImage.leadingAnchor).isActive = true
+        productName.trailingAnchor.constraint(equalTo: productImage.trailingAnchor).isActive = true
+        productName.sizeToFit()
+    }
+    
+    private func setGroupDiscpontedPrice() {
+        contentView.addSubview(groupDiscountedPrice)
+        groupDiscountedPrice.translatesAutoresizingMaskIntoConstraints = false
+        groupDiscountedPrice.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 10).isActive = true
+        groupDiscountedPrice.leadingAnchor.constraint(equalTo: productName.leadingAnchor).isActive = true
+
+        groupDiscountedPrice.sizeToFit()
+        groupDiscountedPrice.font = UIFont.systemFont(ofSize: 14)
+    }
+    
+    private func setOriginalPrice() {
+        contentView.addSubview(originalPrice)
+        originalPrice.translatesAutoresizingMaskIntoConstraints = false
+        originalPrice.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 10).isActive = true
+        originalPrice.leadingAnchor.constraint(equalTo: groupDiscountedPrice.trailingAnchor, constant: 10).isActive = true
+
+        originalPrice.sizeToFit()
+        originalPrice.font = UIFont.systemFont(ofSize: 14)
+        originalPrice.textColor = .darkGray
+    }
+
+    private func setGroupDiscountUserCOunt() {
+        contentView.addSubview(groupDiscountUserCount)
+        groupDiscountUserCount.translatesAutoresizingMaskIntoConstraints = false
+        groupDiscountUserCount.topAnchor.constraint(equalTo: originalPrice.bottomAnchor, constant: 5).isActive = true
+        groupDiscountUserCount.leadingAnchor.constraint(equalTo: productName.leadingAnchor).isActive = true
+
+        groupDiscountUserCount.sizeToFit()
+        groupDiscountUserCount.font = UIFont.systemFont(ofSize: 14)
+    }
+}
