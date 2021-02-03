@@ -11,8 +11,8 @@ class MainViewController: UIViewController {
     
     var shoppingListView : UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>! = nil
-    let sectionTitles = ["베스트", "마스크", "잡화", "프라이팬"]
     var snapshot : NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>!
+    let detailViewController = DetailViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +22,7 @@ class MainViewController: UIViewController {
         setShoppingListView()
         configureDataSource()
         setNotificationListener()
-
-        for itemType in ItemManager.ItemType.allCases {
-            ItemManager.setItems(itemType: itemType) {
-                self.setSnapshotData(itemType: itemType)
-            }
-        }
-
+        ItemManager.setAllTypeOfItems()
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
@@ -55,7 +49,7 @@ class MainViewController: UIViewController {
     func configureDataSource() {
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: "sectionHeader") {
             (supplementaryView, string, indexPath) in
-            supplementaryView.label.text = "\(self.sectionTitles[indexPath.section])"
+            supplementaryView.label.text = "\(ItemManager.ItemType.allCases[indexPath.section])"
             supplementaryView.backgroundColor = .lightGray
             supplementaryView.layer.borderColor = UIColor.black.cgColor
         }
@@ -74,9 +68,9 @@ class MainViewController: UIViewController {
         
         snapshot = NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>()
         snapshot.appendSections([.best])
-        snapshot.appendSections([.fryingpan])
-        snapshot.appendSections([.grocery])
         snapshot.appendSections([.mask])
+        snapshot.appendSections([.grocery])
+        snapshot.appendSections([.fryingpan])
 
     }
 
@@ -95,15 +89,38 @@ class MainViewController: UIViewController {
     }
 }
 
+
+
+extension MainViewController : ItemOrderProtocol{
+    func orderItem(who: String, what: String, quantity: Int, totalPrice: Int) {
+        print(who)
+        print(what)
+        print(quantity)
+        print(totalPrice)
+    }
+    
+    
+}
+
 extension MainViewController {
     private func setNotificationListener() {
         NotificationCenter.default.addObserver(self, selector: #selector(showDetailView(_:)), name: .cellTouched, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setSnapshotData(_:)), name: .FinishedItemSet, object: nil)
     }
     
     @objc func showDetailView(_ notification : Notification) {
-        guard let productId = notification.userInfo?["productId"] else { return }
-        guard let productName = notification.userInfo?["productName"] else { return }
-        guard let storeDomain = notification.userInfo?["storeDomain"] else { return }
+        guard let productId = notification.userInfo?["productId"] as? Int else { return }
+        guard let productName = notification.userInfo?["productName"] as? String else { return }
+        guard let storeDomain = notification.userInfo?["storeDomain"] as? String else { return }
+        DetailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    @objc func setSnapshotData(_ notification : Notification) {
+        guard let itemType = notification.userInfo?["itemType"] as? ItemManager.ItemType else { return }
+        DispatchQueue.main.async {
+            self.setSnapshotData(itemType: itemType)
+        }
     }
 }
 

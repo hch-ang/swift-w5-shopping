@@ -9,6 +9,8 @@ import Foundation
 
 class HTTPRequestManager {
     
+    static let fileManager : FileManagerProtocol = MyFileManager()
+    
     static func getJsonData(itemType : ItemManager.ItemType, completionHandler : @escaping ([StoreItem]) -> Void) {
         let session = URLSession.shared
         guard let dataURL = URL(string: "http://public.codesquad.kr/jk/kakao-2021/\(itemType.rawValue).json") else { return }
@@ -18,12 +20,23 @@ class HTTPRequestManager {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                do {
-                    let resultArray : [StoreItem] = try JSONDecoder().decode([StoreItem].self, from: data)
+                    let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
                     completionHandler(resultArray)
-                } catch(let error) {
-                    print(error)
-                }
+            }
+        }.resume()
+    }
+    
+    static func getJsonDataOfDetail(storeDomain : String, productId : String, completionHandler : @escaping (DetailItem) -> Void) {
+        guard let detailDataURL = URL(string: "https://store.kakao.com/a/\(storeDomain)/product/\(productId)/detail") else { return }
+        URLSession.shared.dataTask(with: detailDataURL) {
+            data, response, error in
+            guard error == nil else {
+                return
+            }
+            if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                guard let result = JsonHandler.shared.parse(data: data, toType: DetailItem.self) else { return }
+                print(result)
+                completionHandler(result)
             }
         }.resume()
     }
@@ -31,20 +44,19 @@ class HTTPRequestManager {
     static func getImageUsingURLString(urlString : String, completionHandler : @escaping (Data) -> Void) {
         guard let imageURL = URL(string: urlString) else { return }
         
-        if let imageData = MyFileManager.getImageDataFromCache(imageURL: imageURL) {
+        if let imageData = fileManager.getImageDataFromCache(imageURL: imageURL) {
             completionHandler(imageData)
             return
         }
         
-        URLSession.shared.dataTask(with: imageURL) {
-            data, response, error in
-            guard error == nil else {
-                return
-            }
-            if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                MyFileManager.saveImageDataIntoCache(imageURL: imageURL, imageData: data)
+        URLSession.shared.downloadTask(with: imageURL) {
+            url, urlResponse, error in
+            guard let url = url else { return }
+            fileManager.copyImageDataIntoCache(fromURL: url, targetURL: imageURL) {
+                (data) in
                 completionHandler(data)
             }
         }.resume()
     }
 }
+

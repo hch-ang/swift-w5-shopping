@@ -33,13 +33,9 @@ class ShoppingItemCell: UICollectionViewCell {
             }
         }
         productName.text = item.productName
-        if let price = item.groupDiscountedPrice {
-            groupDiscountedPrice.text = "톡딜가 \(String(price))원"
-        } else {
-            groupDiscountedPrice.text = ""
-        }
-        originalPrice.text = "\(String(item.originalPrice))원"
-        groupDiscountUserCount.text = "현재 \(String(item.groupDiscountUserCount ?? 0))명 딜 참여중"
+        groupDiscountedPrice.text = StringMaker.makeGroupDiscountedPriceString(price: item.groupDiscountedPrice)
+        originalPrice.text = StringMaker.makeOriginalPriceString(price: item.originalPrice)
+        groupDiscountUserCount.text = StringMaker.makeGroudDiscountUserCountString(count: item.groupDiscountUserCount)
         storeDomain = item.storeDomain
         productId = item.productId
     }

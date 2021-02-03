@@ -7,10 +7,9 @@
 
 import Foundation
 
-class MyFileManager : FileManager {
-    static func getImageDataFromCache(imageURL : URL) -> Data? {
+class MyFileManager : FileManagerProtocol {
+    func getImageDataFromCache(imageURL : URL) -> Data? {
         guard let filePath = createFilePath(imageURL: imageURL) else { return nil }
-
         let fileManager = FileManager()
         if fileManager.fileExists(atPath: filePath.path) {
             guard let imageData = try? Data(contentsOf: filePath) else { return nil }
@@ -20,7 +19,7 @@ class MyFileManager : FileManager {
         }
     }
     
-    static func saveImageDataIntoCache(imageURL : URL, imageData : Data) {
+    func saveImageDataIntoCache(imageURL : URL, imageData : Data) {
         guard let filePath = createFilePath(imageURL: imageURL) else { return }
         
         let fileManager = FileManager()
@@ -29,10 +28,25 @@ class MyFileManager : FileManager {
         }
     }
     
-    static private func createFilePath(imageURL : URL) -> URL? {
+    func copyImageDataIntoCache(fromURL : URL, targetURL : URL, completionHandler : @escaping (Data) -> ()) {
+        guard let toURL = createFilePath(imageURL: targetURL) else { return }
+        let fileManager = FileManager()
+        if fileManager.fileExists(atPath: fromURL.path) {
+            do {
+                try fileManager.copyItem(atPath: fromURL.path, toPath: toURL.path)
+            } catch {
+                return
+            }
+            guard let data = getImageDataFromCache(imageURL: targetURL) else { return }
+            completionHandler(data)
+        }
+    }
+    
+    func createFilePath(imageURL : URL) -> URL? {
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return nil}
         var filePath = URL(fileURLWithPath: path)
         filePath.appendPathComponent(imageURL.query ?? imageURL.path)
         return filePath
     }
 }
+

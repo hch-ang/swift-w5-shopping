@@ -81,3 +81,36 @@
 
 - json을 struct로 변환해주는 사이트를 통해 `https://store.kakao.com/a/{storeDomain}/product/{productId}/detail`에서 받아오는 json 형태에 맞는 구조체 추가
 
+### JsonHandler 분리 0203 11:00
+
+- JsonHandler 클래스 생성
+- parse 메소드 추가
+
+### dataTesk 변경 0203 13:20
+
+- getImageUsingURLString에서 dataTask를 사용하던 부분을 downloadTask를 사용하도록 변경
+- MyFileManager 클래스에 copyImageDataIntoCache 메소드 추가
+
+### FileManager 프로토콜 생성 0203 13:30
+
+- FileManagerProtocol.swift 생성
+- MyFileManager클래스에서 프로토콜 채택
+- HTTPRequestManager에서 프로토콜 참조
+
+### StringMaker 생성 0203 13:50
+
+- Util group에 StringMaker.swift -> StringMaker 클래스 생성
+- makeGroupDiscountedPriceString, makeOriginalPriceString, makeGroudDiscountUserCountString 메소드 추가
+
+### sectionTitle 옮기기 0203 17:00
+
+- 뷰컨트롤러에서 직접 String 배열을 만들어서 사용하지 않고 ItemType enum 타입에서 직접 SectionName을 가져올 수 있도록 수정
+
+### Commit 0203 11:30
+
+- DetailViewController 추가
+- DetailManagerProtocol 추가
+- ItemOrderProtocol 추가
+- DetailView 추가
+- Detail 페이지 파싱하는 코드 추가
+
