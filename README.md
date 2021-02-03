@@ -97,3 +97,8 @@
 - MyFileManager클래스에서 프로토콜 채택
 - HTTPRequestManager에서 프로토콜 참조
 
+### StringMaker 생성 0203 13:50
+
+- Util group에 StringMaker.swift -> StringMaker 클래스 생성
+- makeGroupDiscountedPriceString, makeOriginalPriceString, makeGroudDiscountUserCountString 메소드 추가
+

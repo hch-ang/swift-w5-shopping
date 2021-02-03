@@ -13,6 +13,7 @@
 		D20E282B25C9286E00C8610E /* MyFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20E282A25C9286E00C8610E /* MyFileManager.swift */; };
 		D20E283725CA331300C8610E /* JsonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20E283625CA331300C8610E /* JsonHandler.swift */; };
 		D20E283D25CA5CA200C8610E /* FileManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20E283C25CA5CA200C8610E /* FileManagerProtocol.swift */; };
+		D20E284225CA609600C8610E /* StringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20E284125CA609600C8610E /* StringMaker.swift */; };
 		D281E74425C79EFA0002C9C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D281E74325C79EFA0002C9C8 /* AppDelegate.swift */; };
 		D281E74625C79EFA0002C9C8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D281E74525C79EFA0002C9C8 /* SceneDelegate.swift */; };
 		D281E74825C79EFA0002C9C8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D281E74725C79EFA0002C9C8 /* MainViewController.swift */; };
@@ -49,6 +50,7 @@
 		D20E282A25C9286E00C8610E /* MyFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFileManager.swift; sourceTree = "<group>"; };
 		D20E283625CA331300C8610E /* JsonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonHandler.swift; sourceTree = "<group>"; };
 		D20E283C25CA5CA200C8610E /* FileManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerProtocol.swift; sourceTree = "<group>"; };
+		D20E284125CA609600C8610E /* StringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringMaker.swift; sourceTree = "<group>"; };
 		D281E74025C79EFA0002C9C8 /* StoreApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D281E74325C79EFA0002C9C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D281E74525C79EFA0002C9C8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				D20E27FD25C8347800C8610E /* HTTPRequestManager.swift */,
 				D20E282A25C9286E00C8610E /* MyFileManager.swift */,
 				D20E283625CA331300C8610E /* JsonHandler.swift */,
+				D20E284125CA609600C8610E /* StringMaker.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D20E284225CA609600C8610E /* StringMaker.swift in Sources */,
 				D281E74825C79EFA0002C9C8 /* MainViewController.swift in Sources */,
 				D20E283D25CA5CA200C8610E /* FileManagerProtocol.swift in Sources */,
 				D20E283725CA331300C8610E /* JsonHandler.swift in Sources */,
