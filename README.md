@@ -106,3 +106,11 @@
 
 - 뷰컨트롤러에서 직접 String 배열을 만들어서 사용하지 않고 ItemType enum 타입에서 직접 SectionName을 가져올 수 있도록 수정
 
+### Commit 0203 11:30
+
+- DetailViewController 추가
+- DetailManagerProtocol 추가
+- ItemOrderProtocol 추가
+- DetailView 추가
+- Detail 페이지 파싱하는 코드 추가
+

@@ -12,8 +12,13 @@ class JsonHandler {
     
     private init() { }
     
-    func parse<T : Codable>(data : Data, toType : T.Type) -> [T]{
+    func parseIntoArr<T : Codable>(data : Data, toType : T.Type) -> [T]{
         guard let resultArray : [T] = try? JSONDecoder().decode([T].self, from: data) else { return [] }
         return resultArray
+    }
+    
+    func parse<T : Codable>(data : Data, toType : T.Type) -> T? {
+        guard let result : T = try? JSONDecoder().decode(T.self, from: data) else { return nil }
+        return result
     }
 }

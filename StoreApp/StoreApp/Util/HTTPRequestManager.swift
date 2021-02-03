@@ -20,8 +20,23 @@ class HTTPRequestManager {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                    let resultArray = JsonHandler.shared.parse(data: data, toType: StoreItem.self)
+                    let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
                     completionHandler(resultArray)
+            }
+        }.resume()
+    }
+    
+    static func getJsonDataOfDetail(storeDomain : String, productId : String, completionHandler : @escaping (DetailItem) -> Void) {
+        guard let detailDataURL = URL(string: "https://store.kakao.com/a/\(storeDomain)/product/\(productId)/detail") else { return }
+        URLSession.shared.dataTask(with: detailDataURL) {
+            data, response, error in
+            guard error == nil else {
+                return
+            }
+            if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                guard let result = JsonHandler.shared.parse(data: data, toType: DetailItem.self) else { return }
+                print(result)
+                completionHandler(result)
             }
         }.resume()
     }

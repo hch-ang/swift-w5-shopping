@@ -24,6 +24,50 @@
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="93.75"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="b2o-J1-mb7">
+            <objects>
+                <viewController id="FC5-6w-XbJ" customClass="DetailViewController" customModule="StoreApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5YO-KC-6cR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="deU-tY-YSi" customClass="DetailView" customModule="StoreApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Am1-qq-Kjb">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Am1-qq-Kjb" firstAttribute="bottom" secondItem="vCk-qK-Ob9" secondAttribute="bottom" id="6tV-lu-txZ"/>
+                                    <constraint firstItem="Am1-qq-Kjb" firstAttribute="leading" secondItem="vCk-qK-Ob9" secondAttribute="leading" id="SKa-To-ejh"/>
+                                    <constraint firstItem="Am1-qq-Kjb" firstAttribute="width" secondItem="SYf-bu-Yq9" secondAttribute="width" id="m1I-KN-ak2"/>
+                                    <constraint firstItem="Am1-qq-Kjb" firstAttribute="top" secondItem="vCk-qK-Ob9" secondAttribute="top" id="rIe-q7-oeK"/>
+                                    <constraint firstItem="Am1-qq-Kjb" firstAttribute="trailing" secondItem="vCk-qK-Ob9" secondAttribute="trailing" id="utQ-hi-ezZ"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="vCk-qK-Ob9"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="SYf-bu-Yq9"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nTg-bb-tEN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="deU-tY-YSi" firstAttribute="trailing" secondItem="nTg-bb-tEN" secondAttribute="trailing" id="4Zy-6d-x3q"/>
+                            <constraint firstItem="deU-tY-YSi" firstAttribute="bottom" secondItem="nTg-bb-tEN" secondAttribute="bottom" id="6Bm-C8-gCe"/>
+                            <constraint firstItem="deU-tY-YSi" firstAttribute="leading" secondItem="nTg-bb-tEN" secondAttribute="leading" id="b9E-74-xbT"/>
+                            <constraint firstItem="deU-tY-YSi" firstAttribute="top" secondItem="nTg-bb-tEN" secondAttribute="top" id="dqp-bb-maj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="detailView" destination="deU-tY-YSi" id="WVA-3B-dgo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p1O-Bq-Sqx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1791.304347826087" y="111.83035714285714"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="SIA-0S-uGq">
             <objects>

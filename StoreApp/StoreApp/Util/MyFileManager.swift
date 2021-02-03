@@ -10,7 +10,6 @@ import Foundation
 class MyFileManager : FileManagerProtocol {
     func getImageDataFromCache(imageURL : URL) -> Data? {
         guard let filePath = createFilePath(imageURL: imageURL) else { return nil }
-
         let fileManager = FileManager()
         if fileManager.fileExists(atPath: filePath.path) {
             guard let imageData = try? Data(contentsOf: filePath) else { return nil }

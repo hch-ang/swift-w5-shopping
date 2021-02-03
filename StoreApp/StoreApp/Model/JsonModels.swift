@@ -8,13 +8,13 @@
 import Foundation
 
 class ItemManager {
-    enum ItemType : String, CaseIterable {
+    enum ItemType : String, CaseIterable, CustomStringConvertible {
         case best
         case mask
         case grocery
         case fryingpan
         
-        var SectionName : String{
+        var description: String {
             switch self {
             case .best : return "베스트"
             case .mask : return "마스크"
@@ -28,6 +28,14 @@ class ItemManager {
     static var maskItems : [StoreItem] = []
     static var groceryItems : [StoreItem] = []
     static var fryingpanItems : [StoreItem] = []
+    
+    static func setAllTypeOfItems() {
+        for itemType in ItemType.allCases {
+            setItems(itemType: itemType) {
+                NotificationCenter.default.post(name: .FinishedItemSet, object: self, userInfo: ["itemType" : itemType])
+            }
+        }
+    }
     
     static func setItems(itemType : ItemType, completionHandler : @escaping () -> Void) {
         switch itemType {
@@ -118,115 +126,99 @@ struct StoreItem: Codable, Hashable {
     
 }
 
+class DetailItemManager : DetailManagerProtocol{
+    static private var detailItem : DetailItem!
+    static func setItem(storeDomain : String, productId : String) {
+        HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {
+            (item) in
+            detailItem = item
+        }
+    }
+    
+    func getPreviewImages() -> [String] {
+        return DetailItemManager.detailItem.data.previewImages
+    }
+    
+    func getTotalProductStarRating() -> Double {
+        return DetailItemManager.detailItem.data.review.totalProductStarRating
+    }
+    
+    func getReviewCount() -> Int {
+        return DetailItemManager.detailItem.data.review.reviewCount
+    }
+    
+    func getStatus() -> String {
+        return DetailItemManager.detailItem.data.status
+    }
+    
+    func getDiscountedPrice() -> Int {
+        return DetailItemManager.detailItem.data.price.discountedPrice
+    }
+    
+    func getStoreName() -> String {
+        return DetailItemManager.detailItem.data.store.name
+    }
+    
+    func getDeliveryFeeType() -> String {
+        return DetailItemManager.detailItem.data.delivery.deliveryFeeType
+    }
+    
+    func getDeliveryFee() -> Int {
+        return DetailItemManager.detailItem.data.delivery.deliveryFee
+    }
+    
+    func getNoticeTitle() -> String? {
+//        return DetailItemManager.detailItem.data.notices
+        return nil
+    }
+    
+    func getNoticeProduceAt() -> String? {
+        return nil
+    }
+    
 
-struct detailItem: Codable {
+}
+
+struct DetailItem: Codable {
     let result: Bool
     let data: DataClass
     
 }
 
 struct DataClass: Codable {
-    let gift: String
-    let benefits: [String]
-    let booked: Bool
-    let dataDescription: String
     let previewImages: [String]
-    let optionType: String
-    let certTypeFood: Bool
     let price: Price
     let review: Review
-    let id: Int
-    let reviewCreatable: Bool
-    let events: [JSONAny]
     let delivery: Delivery
-    let images: [String]
-    let quantity: Quantity
-    let coupon: Bool
     let store: Store
-    let taxDeduction: Bool
     let notices: [JSONAny]
-    let imageRatio: String
-    let adultOnly: Bool
-    let name: String
-    let category: Category
-    let favorite: Bool
-    let sharingImageURL: String
     let status: String
 
     enum CodingKeys: String, CodingKey {
-        case gift, benefits, booked
-        case dataDescription = "description"
-        case previewImages, optionType, certTypeFood, price, review, id, reviewCreatable, events, delivery, images, quantity, coupon, store, taxDeduction, notices, imageRatio, adultOnly, name, category, favorite
-        case sharingImageURL = "sharingImageUrl"
-        case status
+        case previewImages, price, review, delivery, store, notices, status
     }
-}
-
-// MARK: - Category
-struct Category: Codable {
-    let id, name: String
 }
 
 // MARK: - Delivery
 struct Delivery: Codable {
-    let deliveryMethodType: String
-    let optionalDeliveries: [JSONAny]
-    let deliveryFeeType, deliveryFeePaymentType: String
+    let deliveryFeeType : String
     let deliveryFee: Int
-    let bundleGroupAvailable: Bool
-    let isolatedAreaNotice: String
 }
 
 // MARK: - Price
 struct Price: Codable {
-    let standardPrice, discountedPrice: Int
-    let discountRate: String
-    let minDiscountedPrice, maxDiscountedPrice: Int
-}
-
-// MARK: - Quantity
-struct Quantity: Codable {
-    let maxPurchase, maxPurchaseOfBuyer: Int
+    let discountedPrice: Int
 }
 
 // MARK: - Review
 struct Review: Codable {
-    let topReviews: [TopReview]
-    let qnaCount, reviewCount, averageRating: Int
+    let reviewCount : Int
     let totalProductStarRating: Double
-    let totalDeliveryStarRating, productPositivePercentage, deliveryPositivePercentage, productStar1Percentage: Int
-    let productStar2Percentage, productStar3Percentage, productStar4Percentage: Int
-}
-
-// MARK: - TopReview
-struct TopReview: Codable {
-    let id, content: String
-    let productRating, deliveryRating, productStarRating, deliveryStarRating: Int
-    let best: Bool
-    let writer: String
-    let imageURL: String
-    let backgroundColor: String
-
-    enum CodingKeys: String, CodingKey {
-        case id, content, productRating, deliveryRating, productStarRating, deliveryStarRating, best, writer
-        case imageURL = "imageUrl"
-        case backgroundColor
-    }
 }
 
 // MARK: - Store
 struct Store: Codable {
-    let id: Int
-    let name, domain: String
-    let farmer: Bool
-    let coverImage, profileImage: String
-    let introduce, channelName: String
-    let channelURL: String
-
-    enum CodingKeys: String, CodingKey {
-        case id, name, domain, farmer, coverImage, profileImage, introduce, channelName
-        case channelURL = "channelUrl"
-    }
+    let name: String
 }
 
 // MARK: - Encode/decode helpers
@@ -470,3 +462,9 @@ class JSONAny: Codable {
         }
     }
 }
+
+extension Notification.Name {
+    static let FinishedItemSet = Notification.Name("FinishedItemSet")
+    static let DetailViewDataIsReady = Notification.Name("DetailViewDataIsReady")
+}
+
