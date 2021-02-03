@@ -9,10 +9,19 @@ import Foundation
 
 class ItemManager {
     enum ItemType : String, CaseIterable {
-    case best
-    case mask
-    case grocery
-    case fryingpan
+        case best
+        case mask
+        case grocery
+        case fryingpan
+        
+        var SectionName : String{
+            switch self {
+            case .best : return "베스트"
+            case .mask : return "마스크"
+            case .grocery : return "잡화"
+            case .fryingpan : return "프래이팬"
+            }
+        }
     }
 
     static var bestItems : [StoreItem] = []

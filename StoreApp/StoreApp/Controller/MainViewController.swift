@@ -11,7 +11,6 @@ class MainViewController: UIViewController {
     
     var shoppingListView : UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>! = nil
-    let sectionTitles = ["베스트", "마스크", "잡화", "프라이팬"]
     var snapshot : NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>!
 
     override func viewDidLoad() {
@@ -55,7 +54,7 @@ class MainViewController: UIViewController {
     func configureDataSource() {
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: "sectionHeader") {
             (supplementaryView, string, indexPath) in
-            supplementaryView.label.text = "\(self.sectionTitles[indexPath.section])"
+            supplementaryView.label.text = "\(ItemManager.ItemType.allCases[indexPath.section].SectionName)"
             supplementaryView.backgroundColor = .lightGray
             supplementaryView.layer.borderColor = UIColor.black.cgColor
         }

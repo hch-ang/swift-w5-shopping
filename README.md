@@ -102,3 +102,7 @@
 - Util group에 StringMaker.swift -> StringMaker 클래스 생성
 - makeGroupDiscountedPriceString, makeOriginalPriceString, makeGroudDiscountUserCountString 메소드 추가
 
+### sectionTitle 옮기기 0203 17:00
+
+- 뷰컨트롤러에서 직접 String 배열을 만들어서 사용하지 않고 ItemType enum 타입에서 직접 SectionName을 가져올 수 있도록 수정
+
