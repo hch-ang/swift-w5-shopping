@@ -81,3 +81,8 @@
 
 - json을 struct로 변환해주는 사이트를 통해 `https://store.kakao.com/a/{storeDomain}/product/{productId}/detail`에서 받아오는 json 형태에 맞는 구조체 추가
 
+### JsonHandler 분리 0203 11:00
+
+- JsonHandler 클래스 생성
+- parse 메소드 추가
+

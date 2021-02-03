@@ -18,12 +18,8 @@ class HTTPRequestManager {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                do {
-                    let resultArray : [StoreItem] = try JSONDecoder().decode([StoreItem].self, from: data)
+                    let resultArray = JsonHandler.shared.parse(data: data, toType: StoreItem.self)
                     completionHandler(resultArray)
-                } catch(let error) {
-                    print(error)
-                }
             }
         }.resume()
     }
