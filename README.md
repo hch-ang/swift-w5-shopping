@@ -91,3 +91,9 @@
 - getImageUsingURLString에서 dataTask를 사용하던 부분을 downloadTask를 사용하도록 변경
 - MyFileManager 클래스에 copyImageDataIntoCache 메소드 추가
 
+### FileManager 프로토콜 생성 0203 13:30
+
+- FileManagerProtocol.swift 생성
+- MyFileManager클래스에서 프로토콜 채택
+- HTTPRequestManager에서 프로토콜 참조
+

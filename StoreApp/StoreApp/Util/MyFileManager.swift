@@ -7,8 +7,8 @@
 
 import Foundation
 
-class MyFileManager : FileManager {
-    static func getImageDataFromCache(imageURL : URL) -> Data? {
+class MyFileManager : FileManagerProtocol {
+    func getImageDataFromCache(imageURL : URL) -> Data? {
         guard let filePath = createFilePath(imageURL: imageURL) else { return nil }
 
         let fileManager = FileManager()
@@ -20,7 +20,7 @@ class MyFileManager : FileManager {
         }
     }
     
-    static func saveImageDataIntoCache(imageURL : URL, imageData : Data) {
+    func saveImageDataIntoCache(imageURL : URL, imageData : Data) {
         guard let filePath = createFilePath(imageURL: imageURL) else { return }
         
         let fileManager = FileManager()
@@ -29,7 +29,7 @@ class MyFileManager : FileManager {
         }
     }
     
-    static func copyImageDataIntoCache(fromURL : URL, targetURL : URL, completionHandler : @escaping (Data) -> ()) {
+    func copyImageDataIntoCache(fromURL : URL, targetURL : URL, completionHandler : @escaping (Data) -> ()) {
         guard let toURL = createFilePath(imageURL: targetURL) else { return }
         let fileManager = FileManager()
         if fileManager.fileExists(atPath: fromURL.path) {
@@ -43,7 +43,7 @@ class MyFileManager : FileManager {
         }
     }
     
-    static private func createFilePath(imageURL : URL) -> URL? {
+    func createFilePath(imageURL : URL) -> URL? {
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return nil}
         var filePath = URL(fileURLWithPath: path)
         filePath.appendPathComponent(imageURL.query ?? imageURL.path)

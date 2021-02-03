@@ -9,6 +9,8 @@ import Foundation
 
 class HTTPRequestManager {
     
+    static let fileManager : FileManagerProtocol = MyFileManager()
+    
     static func getJsonData(itemType : ItemManager.ItemType, completionHandler : @escaping ([StoreItem]) -> Void) {
         let session = URLSession.shared
         guard let dataURL = URL(string: "http://public.codesquad.kr/jk/kakao-2021/\(itemType.rawValue).json") else { return }
@@ -27,7 +29,7 @@ class HTTPRequestManager {
     static func getImageUsingURLString(urlString : String, completionHandler : @escaping (Data) -> Void) {
         guard let imageURL = URL(string: urlString) else { return }
         
-        if let imageData = MyFileManager.getImageDataFromCache(imageURL: imageURL) {
+        if let imageData = fileManager.getImageDataFromCache(imageURL: imageURL) {
             completionHandler(imageData)
             return
         }
@@ -35,7 +37,7 @@ class HTTPRequestManager {
         URLSession.shared.downloadTask(with: imageURL) {
             url, urlResponse, error in
             guard let url = url else { return }
-            MyFileManager.copyImageDataIntoCache(fromURL: url, targetURL: imageURL) {
+            fileManager.copyImageDataIntoCache(fromURL: url, targetURL: imageURL) {
                 (data) in
                 completionHandler(data)
             }
