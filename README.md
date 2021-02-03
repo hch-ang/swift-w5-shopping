@@ -86,3 +86,8 @@
 - JsonHandler 클래스 생성
 - parse 메소드 추가
 
+### dataTesk 변경 0203 13:20
+
+- getImageUsingURLString에서 dataTask를 사용하던 부분을 downloadTask를 사용하도록 변경
+- MyFileManager 클래스에 copyImageDataIntoCache 메소드 추가
+

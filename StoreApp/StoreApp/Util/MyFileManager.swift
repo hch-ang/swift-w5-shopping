@@ -29,6 +29,20 @@ class MyFileManager : FileManager {
         }
     }
     
+    static func copyImageDataIntoCache(fromURL : URL, targetURL : URL, completionHandler : @escaping (Data) -> ()) {
+        guard let toURL = createFilePath(imageURL: targetURL) else { return }
+        let fileManager = FileManager()
+        if fileManager.fileExists(atPath: fromURL.path) {
+            do {
+                try fileManager.copyItem(atPath: fromURL.path, toPath: toURL.path)
+            } catch {
+                return
+            }
+            guard let data = getImageDataFromCache(imageURL: targetURL) else { return }
+            completionHandler(data)
+        }
+    }
+    
     static private func createFilePath(imageURL : URL) -> URL? {
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return nil}
         var filePath = URL(fileURLWithPath: path)
@@ -36,3 +50,4 @@ class MyFileManager : FileManager {
         return filePath
     }
 }
+

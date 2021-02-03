@@ -32,15 +32,14 @@ class HTTPRequestManager {
             return
         }
         
-        URLSession.shared.dataTask(with: imageURL) {
-            data, response, error in
-            guard error == nil else {
-                return
-            }
-            if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                MyFileManager.saveImageDataIntoCache(imageURL: imageURL, imageData: data)
+        URLSession.shared.downloadTask(with: imageURL) {
+            url, urlResponse, error in
+            guard let url = url else { return }
+            MyFileManager.copyImageDataIntoCache(fromURL: url, targetURL: imageURL) {
+                (data) in
                 completionHandler(data)
             }
         }.resume()
     }
 }
+
