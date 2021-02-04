@@ -33,9 +33,9 @@ class ShoppingItemCell: UICollectionViewCell {
             }
         }
         productName.text = item.productName
-        groupDiscountedPrice.text = StringMaker.makeGroupDiscountedPriceString(price: item.groupDiscountedPrice)
-        originalPrice.text = StringMaker.makeOriginalPriceString(price: item.originalPrice)
-        groupDiscountUserCount.text = StringMaker.makeGroudDiscountUserCountString(count: item.groupDiscountUserCount)
+        groupDiscountedPrice.text = ShoppingItemCellStringMaker.makeGroupDiscountedPriceString(price: item.groupDiscountedPrice)
+        originalPrice.text = ShoppingItemCellStringMaker.makeOriginalPriceString(price: item.originalPrice)
+        groupDiscountUserCount.text = ShoppingItemCellStringMaker.makeGroudDiscountUserCountString(count: item.groupDiscountUserCount)
         storeDomain = item.storeDomain
         productId = item.productId
     }

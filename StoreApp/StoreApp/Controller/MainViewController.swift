@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     var shoppingListView : UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>! = nil
     var snapshot : NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>!
-    let detailViewController = DetailViewController()
+    var detailViewController : DetailViewController! = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +112,9 @@ extension MainViewController {
         guard let productId = notification.userInfo?["productId"] as? Int else { return }
         guard let productName = notification.userInfo?["productName"] as? String else { return }
         guard let storeDomain = notification.userInfo?["storeDomain"] as? String else { return }
+        if detailViewController == nil {
+            detailViewController = storyboard?.instantiateViewController(identifier: "DetailViewController")
+        }
         DetailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
         navigationController?.pushViewController(detailViewController, animated: true)
     }

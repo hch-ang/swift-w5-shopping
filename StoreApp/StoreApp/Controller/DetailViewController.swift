@@ -6,17 +6,19 @@
 //
 
 import UIKit
+import WebKit
 
 class DetailViewController: UIViewController {
     private var storeDomain : String = ""
     private var productId : String = ""
-    @IBOutlet weak var detailView: DetailView!
     
+    @IBOutlet weak var detailView: DetailView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(viewDataIsReady), name: .DetailViewDataIsReady, object: nil)
+        detailView.setViewLayouts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +33,10 @@ class DetailViewController: UIViewController {
     }
     
     @objc func viewDataIsReady() {
-        detailView.setViewData()
+        DispatchQueue.main.async {
+            print("??")
+            self.detailView.setViewData()
+        }
     }
 
 }

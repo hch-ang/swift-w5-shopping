@@ -132,8 +132,11 @@ class DetailItemManager : DetailManagerProtocol{
         HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {
             (item) in
             detailItem = item
+            NotificationCenter.default.post(name: .DetailViewDataIsReady, object: nil)
         }
     }
+    
+    
     
     func getPreviewImages() -> [String] {
         return DetailItemManager.detailItem.data.previewImages
@@ -147,16 +150,26 @@ class DetailItemManager : DetailManagerProtocol{
         return DetailItemManager.detailItem.data.review.reviewCount
     }
     
+    func getStandardPrice() -> Int {
+        return DetailItemManager.detailItem.data.price.standardPrice
+    }
+
     func getStatus() -> String {
-        return DetailItemManager.detailItem.data.status
+        guard let talkDeal = DetailItemManager.detailItem.data.talkDeal else { return "" }
+        return talkDeal.status
     }
     
     func getDiscountedPrice() -> Int {
-        return DetailItemManager.detailItem.data.price.standardPrice
+        guard let talkDeal = DetailItemManager.detailItem.data.talkDeal else { return 0 }
+        return talkDeal.discountPrice
     }
     
     func getStoreName() -> String {
         return DetailItemManager.detailItem.data.store.name
+    }
+    
+    func getProductName() -> String {
+        return DetailItemManager.detailItem.data.name
     }
     
     func getDeliveryFeeType() -> String {
@@ -167,16 +180,29 @@ class DetailItemManager : DetailManagerProtocol{
         return DetailItemManager.detailItem.data.delivery.deliveryFee
     }
     
+    func getNoticeCount() -> Int {
+        return DetailItemManager.detailItem.data.notices.count
+    }
+    
     func getNoticeTitle() -> String? {
-//        return DetailItemManager.detailItem.data.notices
+        let notices = DetailItemManager.detailItem.data.notices
+        if notices.count > 0 {
+            return notices[0].title
+        }
         return nil
     }
     
-    func getNoticeProduceAt() -> String? {
+    func getNoticeCreatedAt() -> String? {
+        let notices = DetailItemManager.detailItem.data.notices
+        if notices.count > 0 {
+            return notices[0].createdAt
+        }
         return nil
     }
     
-
+    func getDescription() -> String {
+        return DetailItemManager.detailItem.data.description
+    }
 }
 
 struct DetailItem: Codable {
@@ -191,12 +217,14 @@ struct DataClass: Codable {
     let review: Review
     let delivery: Delivery
     let store: Store
+    let name : String
     let talkDeal : TalkDeal?
     let notices: [Notice]
     let status: String
+    let description : String
 
     enum CodingKeys: String, CodingKey {
-        case previewImages, price, review, delivery, store, talkDeal, notices, status
+        case previewImages, price, review, delivery, store, name, talkDeal, notices, status, description
     }
 }
 

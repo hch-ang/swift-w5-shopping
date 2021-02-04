@@ -121,3 +121,11 @@
 - TalkDeal struct 추가
 - DataClass에 talkDeal 속성 추가
 
+### DetailView 화면 구성
+
+- 스토리보드 수정
+- StringMaker에서 ViewHelper로 파일 이름 변경 후 ShoppingItemCellStringMaker, DetailViewStringMaker, DetailViewLogicHelper로 클래스 분할
+- 뷰에서 정보를 얻어서 가공하는 역할을 하는 메소드 추가
+- 뷰 오토레이이아웃 설정
+- 웹 뷰 가져와서 띄우기
+
