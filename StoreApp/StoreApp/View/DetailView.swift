@@ -160,7 +160,7 @@ class DetailView: UIScrollView {
     }
     
     func setViewData() {
-        print(detailItemManager.getPreviewImages())
+//        print(detailItemManager.getPreviewImages())
         totalProductStarRankingAndReviewCount.text = DetailViewStringMaker.makeTotalProductStarRankingAndReviewCountString(totalProductStarRating: detailItemManager.getTotalProductStarRating(), reviewCount: detailItemManager.getReviewCount())
         productName.text = detailItemManager.getProductName()
         if DetailViewLogicHelper.isOnSale(status: detailItemManager.getStatus()) {

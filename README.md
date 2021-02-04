@@ -129,3 +129,7 @@
 - 뷰 오토레이이아웃 설정
 - 웹 뷰 가져와서 띄우기
 
+### Json Model 분리 0204 20:50
+
+- StoreItem과 DetailItem으로 분리
+

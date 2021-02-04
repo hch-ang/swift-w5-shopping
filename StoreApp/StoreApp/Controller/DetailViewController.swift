@@ -34,7 +34,6 @@ class DetailViewController: UIViewController {
     
     @objc func viewDataIsReady() {
         DispatchQueue.main.async {
-            print("??")
             self.detailView.setViewData()
         }
     }
