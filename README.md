@@ -133,3 +133,11 @@
 
 - StoreItem과 DetailItem으로 분리
 
+### StoreItemManager 변경
+
+- StoreItemManagerProtocol 생성
+- StoreItemManager가 프로토콜 채택 후 메소드 static에서 일반 메소드로 변경
+- StoreItemManager의 static method를 사용하던 부분에서 StoreItemManagerProtocol을 참조하도록 수정
+
+
+

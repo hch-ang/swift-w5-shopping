@@ -11,7 +11,7 @@ class HTTPRequestManager {
     
     static let fileManager : FileManagerProtocol = MyFileManager()
     
-    static func getJsonData(itemType : ItemManager.ItemType, completionHandler : @escaping ([StoreItem]) -> Void) {
+    static func getJsonData(itemType : ItemType, completionHandler : @escaping ([StoreItem]) -> Void) {
         let session = URLSession.shared
         guard let dataURL = URL(string: "http://public.codesquad.kr/jk/kakao-2021/\(itemType.rawValue).json") else { return }
         session.dataTask(with: dataURL) {

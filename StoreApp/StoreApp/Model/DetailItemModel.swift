@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DetailItemManager : DetailManagerProtocol{
+class DetailItemManager : DetailItemManagerProtocol{
     static private var detailItem : DetailItem!
     static func setItem(storeDomain : String, productId : String) {
         HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {

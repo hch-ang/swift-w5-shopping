@@ -26,9 +26,10 @@
 		D281E78225C7BBBA0002C9C8 /* StoreItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D281E78125C7BBBA0002C9C8 /* StoreItemModel.swift */; };
 		D281E78F25C7F0AB0002C9C8 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D281E78E25C7F0AB0002C9C8 /* TitleSupplementaryView.swift */; };
 		D2912A3A25CC16190072C664 /* DetailItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2912A3925CC16190072C664 /* DetailItemModel.swift */; };
+		D2912A3F25CC175D0072C664 /* StoreItemManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2912A3E25CC175D0072C664 /* StoreItemManagerProtocol.swift */; };
 		D2C2B85E25CA9BDC0028D4A9 /* ItemOrderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C2B85D25CA9BDC0028D4A9 /* ItemOrderProtocol.swift */; };
 		D2C2B86B25CAD7D60028D4A9 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C2B86A25CAD7D60028D4A9 /* DetailView.swift */; };
-		D2C2B87025CAE1050028D4A9 /* DetailManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C2B86F25CAE1050028D4A9 /* DetailManagerProtocol.swift */; };
+		D2C2B87025CAE1050028D4A9 /* DetailItemManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C2B86F25CAE1050028D4A9 /* DetailItemManagerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,9 +75,10 @@
 		D281E78125C7BBBA0002C9C8 /* StoreItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemModel.swift; sourceTree = "<group>"; };
 		D281E78E25C7F0AB0002C9C8 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
 		D2912A3925CC16190072C664 /* DetailItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemModel.swift; sourceTree = "<group>"; };
+		D2912A3E25CC175D0072C664 /* StoreItemManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemManagerProtocol.swift; sourceTree = "<group>"; };
 		D2C2B85D25CA9BDC0028D4A9 /* ItemOrderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrderProtocol.swift; sourceTree = "<group>"; };
 		D2C2B86A25CAD7D60028D4A9 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		D2C2B86F25CAE1050028D4A9 /* DetailManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailManagerProtocol.swift; sourceTree = "<group>"; };
+		D2C2B86F25CAE1050028D4A9 /* DetailItemManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemManagerProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +111,8 @@
 			children = (
 				D20E283C25CA5CA200C8610E /* FileManagerProtocol.swift */,
 				D2C2B85D25CA9BDC0028D4A9 /* ItemOrderProtocol.swift */,
-				D2C2B86F25CAE1050028D4A9 /* DetailManagerProtocol.swift */,
+				D2C2B86F25CAE1050028D4A9 /* DetailItemManagerProtocol.swift */,
+				D2912A3E25CC175D0072C664 /* StoreItemManagerProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -343,10 +346,11 @@
 			files = (
 				D20E284225CA609600C8610E /* ViewHelper.swift in Sources */,
 				D281E74825C79EFA0002C9C8 /* MainViewController.swift in Sources */,
-				D2C2B87025CAE1050028D4A9 /* DetailManagerProtocol.swift in Sources */,
+				D2C2B87025CAE1050028D4A9 /* DetailItemManagerProtocol.swift in Sources */,
 				D2912A3A25CC16190072C664 /* DetailItemModel.swift in Sources */,
 				D20E283D25CA5CA200C8610E /* FileManagerProtocol.swift in Sources */,
 				D2C2B86B25CAD7D60028D4A9 /* DetailView.swift in Sources */,
+				D2912A3F25CC175D0072C664 /* StoreItemManagerProtocol.swift in Sources */,
 				D20E284725CA967F00C8610E /* DetailViewController.swift in Sources */,
 				D20E283725CA331300C8610E /* JsonHandler.swift in Sources */,
 				D2C2B85E25CA9BDC0028D4A9 /* ItemOrderProtocol.swift in Sources */,

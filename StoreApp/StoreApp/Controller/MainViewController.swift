@@ -10,9 +10,10 @@ import UIKit
 class MainViewController: UIViewController {
     
     var shoppingListView : UICollectionView! = nil
-    var dataSource: UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>! = nil
-    var snapshot : NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>!
+    var dataSource: UICollectionViewDiffableDataSource<ItemType, StoreItem>! = nil
+    var snapshot : NSDiffableDataSourceSnapshot<ItemType, StoreItem>!
     var detailViewController : DetailViewController! = nil
+    private let storeItemManager : StoreItemManagerProtocol = StoreItemManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class MainViewController: UIViewController {
         setShoppingListView()
         configureDataSource()
         setNotificationListener()
-        ItemManager.setAllTypeOfItems()
+        storeItemManager.setAllTypeOfItems()
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
@@ -41,21 +42,21 @@ class MainViewController: UIViewController {
         return layout
     }
     
-    func setSnapshotData(itemType : ItemManager.ItemType) {
-        snapshot.appendItems(ItemManager.getItems(itemType: itemType), toSection: itemType)
+    func setSnapshotData(itemType : ItemType) {
+        snapshot.appendItems(storeItemManager.getItems(itemType: itemType), toSection: itemType)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func configureDataSource() {
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: "sectionHeader") {
             (supplementaryView, string, indexPath) in
-            supplementaryView.label.text = "\(ItemManager.ItemType.allCases[indexPath.section])"
+            supplementaryView.label.text = "\(ItemType.allCases[indexPath.section])"
             supplementaryView.backgroundColor = .lightGray
             supplementaryView.layer.borderColor = UIColor.black.cgColor
         }
 
 
-        dataSource = UICollectionViewDiffableDataSource<ItemManager.ItemType, StoreItem>(collectionView: shoppingListView) {
+        dataSource = UICollectionViewDiffableDataSource<ItemType, StoreItem>(collectionView: shoppingListView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: StoreItem) -> UICollectionViewCell? in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShoppingItemCell", for: indexPath) as? ShoppingItemCell else { return UICollectionViewCell() }
             cell.setCellData(item: identifier)
@@ -66,7 +67,7 @@ class MainViewController: UIViewController {
             return self.shoppingListView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
         }
         
-        snapshot = NSDiffableDataSourceSnapshot<ItemManager.ItemType, StoreItem>()
+        snapshot = NSDiffableDataSourceSnapshot<ItemType, StoreItem>()
         snapshot.appendSections([.best])
         snapshot.appendSections([.mask])
         snapshot.appendSections([.grocery])
@@ -120,7 +121,7 @@ extension MainViewController {
     }
     
     @objc func setSnapshotData(_ notification : Notification) {
-        guard let itemType = notification.userInfo?["itemType"] as? ItemManager.ItemType else { return }
+        guard let itemType = notification.userInfo?["itemType"] as? ItemType else { return }
         DispatchQueue.main.async {
             self.setSnapshotData(itemType: itemType)
         }

@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 class DetailView: UIScrollView {
-    private let detailItemManager : DetailManagerProtocol = DetailItemManager()
+    private let detailItemManager : DetailItemManagerProtocol = DetailItemManager()
     private var contentView = UIView()
     private var previewImageView = UIImageView()
     private var totalProductStarRankingAndReviewCount = UILabel()

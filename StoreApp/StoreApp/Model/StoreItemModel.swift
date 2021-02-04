@@ -7,29 +7,14 @@
 
 import Foundation
 
-class ItemManager {
-    enum ItemType : String, CaseIterable, CustomStringConvertible {
-        case best
-        case mask
-        case grocery
-        case fryingpan
-        
-        var description: String {
-            switch self {
-            case .best : return "베스트"
-            case .mask : return "마스크"
-            case .grocery : return "잡화"
-            case .fryingpan : return "프래이팬"
-            }
-        }
-    }
+class StoreItemManager : StoreItemManagerProtocol{
 
-    static var bestItems : [StoreItem] = []
-    static var maskItems : [StoreItem] = []
-    static var groceryItems : [StoreItem] = []
-    static var fryingpanItems : [StoreItem] = []
+    private var bestItems : [StoreItem] = []
+    private var maskItems : [StoreItem] = []
+    private var groceryItems : [StoreItem] = []
+    private var fryingpanItems : [StoreItem] = []
     
-    static func setAllTypeOfItems() {
+    func setAllTypeOfItems() {
         for itemType in ItemType.allCases {
             setItems(itemType: itemType) {
                 NotificationCenter.default.post(name: .FinishedItemSet, object: self, userInfo: ["itemType" : itemType])
@@ -37,40 +22,40 @@ class ItemManager {
         }
     }
     
-    static func setItems(itemType : ItemType, completionHandler : @escaping () -> Void) {
+    func setItems(itemType : ItemType, completionHandler : @escaping () -> Void) {
         switch itemType {
         case .best:
             HTTPRequestManager.getJsonData(itemType: itemType) {
                 (itemArray) in
-                bestItems = itemArray
+                self.bestItems = itemArray
                 completionHandler()
             }
             return
         case .fryingpan:
             HTTPRequestManager.getJsonData(itemType: itemType) {
                 (itemArray) in
-                fryingpanItems = itemArray
+                self.fryingpanItems = itemArray
                 completionHandler()
             }
             return
         case .grocery:
             HTTPRequestManager.getJsonData(itemType: itemType) {
                 (itemArray) in
-                groceryItems = itemArray
+                self.groceryItems = itemArray
                 completionHandler()
             }
             return
         case .mask:
             HTTPRequestManager.getJsonData(itemType: itemType) {
                 (itemArray) in
-                maskItems = itemArray
+                self.maskItems = itemArray
                 completionHandler()
             }
             return
         }
     }
     
-    static func getItems(itemType : ItemType) -> [StoreItem] {
+    func getItems(itemType : ItemType) -> [StoreItem] {
         switch itemType {
         case .best:
             return bestItems
@@ -83,7 +68,7 @@ class ItemManager {
         }
     }
     
-    static func getCount(itemType : ItemType) -> Int {
+    func getCount(itemType : ItemType) -> Int {
         switch itemType {
         case .best:
             return bestItems.count
@@ -96,7 +81,7 @@ class ItemManager {
         }
     }
     
-    static func subccript(itemType : ItemType, index : Int) -> StoreItem {
+    func subccript(itemType : ItemType, index : Int) -> StoreItem {
         switch itemType {
         case .best:
             return bestItems[index]

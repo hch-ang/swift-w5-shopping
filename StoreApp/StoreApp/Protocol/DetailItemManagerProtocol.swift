@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DetailManagerProtocol {
+protocol DetailItemManagerProtocol {
     func getPreviewImages() -> [String]
     func getTotalProductStarRating() -> Double
     func getReviewCount() -> Int
