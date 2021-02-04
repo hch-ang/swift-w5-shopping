@@ -149,5 +149,9 @@
 - DetailItemManager의 get method들을 computed property로 변경
 - get method를 사용하던 코드 수정
 
+### HTTPRequestManager 메소드 수정
+
+- URLSession을 통해 받아온 data를 바로 JsonDecoder를 통해 가공하는 형식이 아니라 받아온 data를 넘겨주고 completionHandler에서 data를 가공할 수 있도록 수정
+
 
 

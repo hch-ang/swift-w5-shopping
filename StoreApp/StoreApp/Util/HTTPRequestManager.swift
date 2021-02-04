@@ -11,7 +11,7 @@ class HTTPRequestManager {
     
     static let fileManager : FileManagerProtocol = MyFileManager()
     
-    static func getJsonData(itemType : ItemType, completionHandler : @escaping ([StoreItem]) -> Void) {
+    static func getJsonData(itemType : ItemType, completionHandler : @escaping (Data) -> Void) {
         let session = URLSession.shared
         guard let dataURL = URL(string: "http://public.codesquad.kr/jk/kakao-2021/\(itemType.rawValue).json") else { return }
         session.dataTask(with: dataURL) {
@@ -20,13 +20,12 @@ class HTTPRequestManager {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                    let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
-                    completionHandler(resultArray)
+                completionHandler(data)
             }
         }.resume()
     }
     
-    static func getJsonDataOfDetail(storeDomain : String, productId : String, completionHandler : @escaping (DetailItem) -> Void) {
+    static func getJsonDataOfDetail(storeDomain : String, productId : String, completionHandler : @escaping (Data) -> Void) {
         guard let detailDataURL = URL(string: "https://store.kakao.com/a/\(storeDomain)/product/\(productId)/detail") else { return }
         URLSession.shared.dataTask(with: detailDataURL) {
             data, response, error in
@@ -34,8 +33,7 @@ class HTTPRequestManager {
                 return
             }
             if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                guard let result = JsonHandler.shared.parse(data: data, toType: DetailItem.self) else { return }
-                completionHandler(result)
+                completionHandler(data)
             }
         }.resume()
     }

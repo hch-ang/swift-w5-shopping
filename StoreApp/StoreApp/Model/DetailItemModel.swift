@@ -9,10 +9,12 @@ import Foundation
 
 class DetailItemManager : DetailItemManagerProtocol{
     private var detailItem : DetailItem!
+    
     func setItem(storeDomain : String, productId : String) {
         HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {
-            (item) in
-            self.detailItem = item
+            (data) in
+            guard let result = JsonHandler.shared.parse(data: data, toType: DetailItem.self) else { return }
+            self.detailItem = result
             NotificationCenter.default.post(name: .DetailViewDataIsReady, object: nil)
         }
     }
@@ -81,7 +83,7 @@ class DetailItemManager : DetailItemManagerProtocol{
     
     var description : String {
         return detailItem.data.description
-    }    
+    }
 }
 
 struct DetailItem: Codable {

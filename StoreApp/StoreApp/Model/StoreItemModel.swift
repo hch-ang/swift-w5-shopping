@@ -26,29 +26,33 @@ class StoreItemManager : StoreItemManagerProtocol{
         switch itemType {
         case .best:
             HTTPRequestManager.getJsonData(itemType: itemType) {
-                (itemArray) in
-                self.bestItems = itemArray
+                (data) in
+                let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
+                self.bestItems = resultArray
                 completionHandler()
             }
             return
         case .fryingpan:
             HTTPRequestManager.getJsonData(itemType: itemType) {
-                (itemArray) in
-                self.fryingpanItems = itemArray
+                (data) in
+                let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
+                self.fryingpanItems = resultArray
                 completionHandler()
             }
             return
         case .grocery:
             HTTPRequestManager.getJsonData(itemType: itemType) {
-                (itemArray) in
-                self.groceryItems = itemArray
+                (data) in
+                let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
+                self.groceryItems = resultArray
                 completionHandler()
             }
             return
         case .mask:
             HTTPRequestManager.getJsonData(itemType: itemType) {
-                (itemArray) in
-                self.maskItems = itemArray
+                (data) in
+                let resultArray = JsonHandler.shared.parseIntoArr(data: data, toType: StoreItem.self)
+                self.maskItems = resultArray
                 completionHandler()
             }
             return
