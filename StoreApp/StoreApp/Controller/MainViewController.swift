@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     var snapshot : NSDiffableDataSourceSnapshot<ItemType, StoreItem>!
     var detailViewController : DetailViewController! = nil
     private let storeItemManager : StoreItemManagerProtocol = StoreItemManager()
+    private let detailItemManager : DetailItemManagerProtocol = DetailItemManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,13 +112,14 @@ extension MainViewController {
     
     @objc func showDetailView(_ notification : Notification) {
         guard let productId = notification.userInfo?["productId"] as? Int else { return }
-        guard let productName = notification.userInfo?["productName"] as? String else { return }
         guard let storeDomain = notification.userInfo?["storeDomain"] as? String else { return }
         if detailViewController == nil {
             detailViewController = storyboard?.instantiateViewController(identifier: "DetailViewController")
+            detailViewController.setDetailItemManager(detailItemManager: detailItemManager)
+            detailViewController.addObserverOfDetailViewDataIsReady()
         }
-        DetailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
-        navigationController?.pushViewController(detailViewController, animated: true)
+        detailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
+        self.navigationController?.pushViewController(self.detailViewController, animated: true)
     }
     
     @objc func setSnapshotData(_ notification : Notification) {

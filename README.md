@@ -139,5 +139,9 @@
 - StoreItemManager가 프로토콜 채택 후 메소드 static에서 일반 메소드로 변경
 - StoreItemManager의 static method를 사용하던 부분에서 StoreItemManagerProtocol을 참조하도록 수정
 
+### DetailViewController observer 등록 시기 변경
+
+- viewDidLoad에서 observer를 등록하던 기존의 코드의 문제점(처음 저장되는 데이터를 View가 받아들이지 못하는 문제)을 해결하기 위해 MainViewController에서 DetailViewController 인스턴스를 생성할 때 observer를 등록하는 코드로 수정
+
 
 

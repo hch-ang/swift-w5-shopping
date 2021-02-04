@@ -9,30 +9,29 @@ import UIKit
 import WebKit
 
 class DetailViewController: UIViewController {
-    private var storeDomain : String = ""
-    private var productId : String = ""
-    
     @IBOutlet weak var detailView: DetailView!
+    private var detailItemManager : DetailItemManagerProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(viewDataIsReady), name: .DetailViewDataIsReady, object: nil)
+        detailView.setDetailItemManager(detailItemManager: detailItemManager)
         detailView.setViewLayouts()
+    }
+    
+    func setDetailItemManager(detailItemManager : DetailItemManagerProtocol) {
+        self.detailItemManager = detailItemManager
+    }
+    
+    func addObserverOfDetailViewDataIsReady() {
+        NotificationCenter.default.addObserver(self, selector: #selector(viewDataIsReady), name: .DetailViewDataIsReady, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
     }
     
-    func setStoreDomain(storeDomain : String) {
-        self.storeDomain = storeDomain
-    }
-    
-    func setProductId(productId : Int) {
-        self.productId = String(productId)
-    }
-    
     @objc func viewDataIsReady() {
+        print(#function)
         DispatchQueue.main.async {
             self.detailView.setViewData()
         }

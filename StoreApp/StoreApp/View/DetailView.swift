@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 class DetailView: UIScrollView {
-    private let detailItemManager : DetailItemManagerProtocol = DetailItemManager()
+    private var detailItemManager : DetailItemManagerProtocol! = nil
     private var contentView = UIView()
     private var previewImageView = UIImageView()
     private var totalProductStarRankingAndReviewCount = UILabel()
@@ -188,6 +188,10 @@ class DetailView: UIScrollView {
             webViewTopAnchorConstraintWithNoticeCreatedAt.isActive = false
         }
         webView.loadHTMLString(detailItemManager.getDescription(), baseURL: nil)
+    }
+    
+    func setDetailItemManager(detailItemManager : DetailItemManagerProtocol) {
+        self.detailItemManager = detailItemManager
     }
 }
 

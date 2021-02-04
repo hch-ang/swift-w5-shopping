@@ -8,6 +8,7 @@
 import Foundation
 
 protocol DetailItemManagerProtocol {
+    func setItem(storeDomain : String, productId : String)
     func getPreviewImages() -> [String]
     func getTotalProductStarRating() -> Double
     func getReviewCount() -> Int

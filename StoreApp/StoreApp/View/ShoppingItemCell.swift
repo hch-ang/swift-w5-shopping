@@ -104,7 +104,7 @@ class ShoppingItemCell: UICollectionViewCell {
     }
     
     @objc func cellTouched() {
-        NotificationCenter.default.post(name: .cellTouched, object: nil, userInfo: ["productName" : productName.text!, "productId" : productId, "storeDomain" : storeDomain])
+        NotificationCenter.default.post(name: .cellTouched, object: nil, userInfo: ["productId" : productId, "storeDomain" : storeDomain])
     }
 }
 

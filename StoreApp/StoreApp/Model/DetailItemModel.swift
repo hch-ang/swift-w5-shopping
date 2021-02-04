@@ -8,63 +8,63 @@
 import Foundation
 
 class DetailItemManager : DetailItemManagerProtocol{
-    static private var detailItem : DetailItem!
-    static func setItem(storeDomain : String, productId : String) {
+    private var detailItem : DetailItem!
+    func setItem(storeDomain : String, productId : String) {
         HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {
             (item) in
-            detailItem = item
+            self.detailItem = item
             NotificationCenter.default.post(name: .DetailViewDataIsReady, object: nil)
         }
     }
     
     func getPreviewImages() -> [String] {
-        return DetailItemManager.detailItem.data.previewImages
+        return detailItem.data.previewImages
     }
     
     func getTotalProductStarRating() -> Double {
-        return DetailItemManager.detailItem.data.review.totalProductStarRating
+        return detailItem.data.review.totalProductStarRating
     }
     
     func getReviewCount() -> Int {
-        return DetailItemManager.detailItem.data.review.reviewCount
+        return detailItem.data.review.reviewCount
     }
     
     func getStandardPrice() -> Int {
-        return DetailItemManager.detailItem.data.price.standardPrice
+        return detailItem.data.price.standardPrice
     }
 
     func getStatus() -> String {
-        guard let talkDeal = DetailItemManager.detailItem.data.talkDeal else { return "" }
+        guard let talkDeal = detailItem.data.talkDeal else { return "" }
         return talkDeal.status
     }
     
     func getDiscountedPrice() -> Int {
-        guard let talkDeal = DetailItemManager.detailItem.data.talkDeal else { return 0 }
+        guard let talkDeal = detailItem.data.talkDeal else { return 0 }
         return talkDeal.discountPrice
     }
     
     func getStoreName() -> String {
-        return DetailItemManager.detailItem.data.store.name
+        return detailItem.data.store.name
     }
     
     func getProductName() -> String {
-        return DetailItemManager.detailItem.data.name
+        return detailItem.data.name
     }
     
     func getDeliveryFeeType() -> String {
-        return DetailItemManager.detailItem.data.delivery.deliveryFeeType
+        return detailItem.data.delivery.deliveryFeeType
     }
     
     func getDeliveryFee() -> Int {
-        return DetailItemManager.detailItem.data.delivery.deliveryFee
+        return detailItem.data.delivery.deliveryFee
     }
     
     func getNoticeCount() -> Int {
-        return DetailItemManager.detailItem.data.notices.count
+        return detailItem.data.notices.count
     }
     
     func getNoticeTitle() -> String? {
-        let notices = DetailItemManager.detailItem.data.notices
+        let notices = detailItem.data.notices
         if notices.count > 0 {
             return notices[0].title
         }
@@ -72,7 +72,7 @@ class DetailItemManager : DetailItemManagerProtocol{
     }
     
     func getNoticeCreatedAt() -> String? {
-        let notices = DetailItemManager.detailItem.data.notices
+        let notices = detailItem.data.notices
         if notices.count > 0 {
             return notices[0].createdAt
         }
@@ -80,7 +80,7 @@ class DetailItemManager : DetailItemManagerProtocol{
     }
     
     func getDescription() -> String {
-        return DetailItemManager.detailItem.data.description
+        return detailItem.data.description
     }
 }
 
