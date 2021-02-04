@@ -152,7 +152,7 @@ class DetailItemManager : DetailManagerProtocol{
     }
     
     func getDiscountedPrice() -> Int {
-        return DetailItemManager.detailItem.data.price.discountedPrice
+        return DetailItemManager.detailItem.data.price.standardPrice
     }
     
     func getStoreName() -> String {
@@ -191,11 +191,12 @@ struct DataClass: Codable {
     let review: Review
     let delivery: Delivery
     let store: Store
-    let notices: [JSONAny]
+    let talkDeal : TalkDeal?
+    let notices: [Notice]
     let status: String
 
     enum CodingKeys: String, CodingKey {
-        case previewImages, price, review, delivery, store, notices, status
+        case previewImages, price, review, delivery, store, talkDeal, notices, status
     }
 }
 
@@ -207,7 +208,7 @@ struct Delivery: Codable {
 
 // MARK: - Price
 struct Price: Codable {
-    let discountedPrice: Int
+    let standardPrice: Int
 }
 
 // MARK: - Review
@@ -219,6 +220,18 @@ struct Review: Codable {
 // MARK: - Store
 struct Store: Codable {
     let name: String
+}
+
+// MARK: - TalkDeal
+struct TalkDeal: Codable {
+    let status: String
+    let discountPrice : Int
+}
+
+// MARK: - Notice
+struct Notice: Codable {
+    let title: String
+    let createdAt : String
 }
 
 // MARK: - Encode/decode helpers

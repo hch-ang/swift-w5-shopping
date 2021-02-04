@@ -114,3 +114,10 @@
 - DetailView 추가
 - Detail 페이지 파싱하는 코드 추가
 
+### Json Model 수정 0204 10:00
+
+- Notice struct 추가
+- notice를 [JSONAny]가 아닌 [Notice]로 수정
+- TalkDeal struct 추가
+- DataClass에 talkDeal 속성 추가
+
