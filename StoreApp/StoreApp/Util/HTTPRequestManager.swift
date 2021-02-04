@@ -28,6 +28,8 @@ class HTTPRequestManager {
     
     static func getJsonDataOfDetail(storeDomain : String, productId : String, completionHandler : @escaping (DetailItem) -> Void) {
         guard let detailDataURL = URL(string: "https://store.kakao.com/a/\(storeDomain)/product/\(productId)/detail") else { return }
+//        guard let detailDataURL = URL(string: "https://store.kakao.com/a/chamdoggaebi/product/66924530/detail") else { return }
+//        print(detailDataURL)
         URLSession.shared.dataTask(with: detailDataURL) {
             data, response, error in
             guard error == nil else {
