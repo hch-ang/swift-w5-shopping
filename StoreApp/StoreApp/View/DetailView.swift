@@ -161,33 +161,33 @@ class DetailView: UIScrollView {
     
     func setViewData() {
 //        print(detailItemManager.getPreviewImages())
-        totalProductStarRankingAndReviewCount.text = DetailViewStringMaker.makeTotalProductStarRankingAndReviewCountString(totalProductStarRating: detailItemManager.getTotalProductStarRating(), reviewCount: detailItemManager.getReviewCount())
-        productName.text = detailItemManager.getProductName()
-        if DetailViewLogicHelper.isOnSale(status: detailItemManager.getStatus()) {
+        totalProductStarRankingAndReviewCount.text = DetailViewStringMaker.makeTotalProductStarRankingAndReviewCountString(totalProductStarRating: detailItemManager.totalProductStarRating, reviewCount: detailItemManager.reviewCount)
+        productName.text = detailItemManager.productName
+        if DetailViewLogicHelper.isOnSale(status: detailItemManager.status) {
             standardPriceLeadingAnchorConstraint.isActive = true
             standardPriceCenterXAnchoerConstraint.isActive = false
             discountedPrice.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1)
-            discountedPrice.text = DetailViewStringMaker.convertDiscountedPriceIntoString(discountedPrice: detailItemManager.getDiscountedPrice())
+            discountedPrice.text = DetailViewStringMaker.convertDiscountedPriceIntoString(discountedPrice: detailItemManager.discountedPrice)
         } else {
             standardPriceLeadingAnchorConstraint.isActive = false
             standardPriceCenterXAnchoerConstraint.isActive = true
             discountedPrice.backgroundColor = .white
             discountedPrice.text = ""
         }
-        standardPrice.text = DetailViewStringMaker.convertStandardPriceIntoString(standardPrice: detailItemManager.getStandardPrice())
-        storeName.text = detailItemManager.getStoreName()
-        deliveryFee.text = DetailViewStringMaker.makeDeilveryFeeString(deliveryFee: detailItemManager.getDeliveryFee(), deliveryFeeType: detailItemManager.getDeliveryFeeType())
-        if detailItemManager.getNoticeCount() > 0 {
-            noticeTitle.text = detailItemManager.getNoticeTitle()
+        standardPrice.text = DetailViewStringMaker.convertStandardPriceIntoString(standardPrice: detailItemManager.standardPrice)
+        storeName.text = detailItemManager.storeName
+        deliveryFee.text = DetailViewStringMaker.makeDeilveryFeeString(deliveryFee: detailItemManager.deliveryFee, deliveryFeeType: detailItemManager.deliveryFeeType)
+        if detailItemManager.noticeCount > 0 {
+            noticeTitle.text = detailItemManager.noticeTitle
             print(noticeTitle)
-            noticeCreatedAt.text = DetailViewStringMaker.makeNoticeCreatedAtToFitStandard(createdAt: detailItemManager.getNoticeCreatedAt())
+            noticeCreatedAt.text = DetailViewStringMaker.makeNoticeCreatedAtToFitStandard(createdAt: detailItemManager.noticeCreatedAt)
             webViewTopAnchorConstraintWithDeliveryFee.isActive = false
             webViewTopAnchorConstraintWithNoticeCreatedAt.isActive = true
         } else {
             webViewTopAnchorConstraintWithDeliveryFee.isActive = true
             webViewTopAnchorConstraintWithNoticeCreatedAt.isActive = false
         }
-        webView.loadHTMLString(detailItemManager.getDescription(), baseURL: nil)
+        webView.loadHTMLString(detailItemManager.description, baseURL: nil)
     }
     
     func setDetailItemManager(detailItemManager : DetailItemManagerProtocol) {

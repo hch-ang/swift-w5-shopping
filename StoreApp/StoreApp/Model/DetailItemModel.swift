@@ -17,53 +17,53 @@ class DetailItemManager : DetailItemManagerProtocol{
         }
     }
     
-    func getPreviewImages() -> [String] {
+    var previewImages : [String] {
         return detailItem.data.previewImages
     }
     
-    func getTotalProductStarRating() -> Double {
+    var totalProductStarRating : Double {
         return detailItem.data.review.totalProductStarRating
     }
     
-    func getReviewCount() -> Int {
+    var reviewCount : Int {
         return detailItem.data.review.reviewCount
     }
     
-    func getStandardPrice() -> Int {
+    var standardPrice: Int {
         return detailItem.data.price.standardPrice
     }
-
-    func getStatus() -> String {
+    
+    var status : String {
         guard let talkDeal = detailItem.data.talkDeal else { return "" }
         return talkDeal.status
     }
     
-    func getDiscountedPrice() -> Int {
+    var discountedPrice : Int {
         guard let talkDeal = detailItem.data.talkDeal else { return 0 }
         return talkDeal.discountPrice
     }
     
-    func getStoreName() -> String {
+    var storeName : String {
         return detailItem.data.store.name
     }
     
-    func getProductName() -> String {
+    var productName : String {
         return detailItem.data.name
     }
     
-    func getDeliveryFeeType() -> String {
+    var deliveryFeeType : String {
         return detailItem.data.delivery.deliveryFeeType
     }
     
-    func getDeliveryFee() -> Int {
+    var deliveryFee : Int {
         return detailItem.data.delivery.deliveryFee
     }
     
-    func getNoticeCount() -> Int {
+    var noticeCount : Int {
         return detailItem.data.notices.count
     }
     
-    func getNoticeTitle() -> String? {
+    var noticeTitle : String? {
         let notices = detailItem.data.notices
         if notices.count > 0 {
             return notices[0].title
@@ -71,7 +71,7 @@ class DetailItemManager : DetailItemManagerProtocol{
         return nil
     }
     
-    func getNoticeCreatedAt() -> String? {
+    var noticeCreatedAt : String? {
         let notices = detailItem.data.notices
         if notices.count > 0 {
             return notices[0].createdAt
@@ -79,9 +79,9 @@ class DetailItemManager : DetailItemManagerProtocol{
         return nil
     }
     
-    func getDescription() -> String {
+    var description : String {
         return detailItem.data.description
-    }
+    }    
 }
 
 struct DetailItem: Codable {

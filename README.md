@@ -143,5 +143,11 @@
 
 - viewDidLoad에서 observer를 등록하던 기존의 코드의 문제점(처음 저장되는 데이터를 View가 받아들이지 못하는 문제)을 해결하기 위해 MainViewController에서 DetailViewController 인스턴스를 생성할 때 observer를 등록하는 코드로 수정
 
+### Get 메소드들을 computed property로 변경
+
+- DetailItemManagetProtocol의 get method들을 only gettable property로 변경
+- DetailItemManager의 get method들을 computed property로 변경
+- get method를 사용하던 코드 수정
+
 
 
