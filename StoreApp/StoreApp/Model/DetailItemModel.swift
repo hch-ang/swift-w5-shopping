@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 class DetailItemManager : DetailItemManagerProtocol{
     private var detailItem : DetailItem!
-    
+    var previewRealImages : [UIImage] = []
+
     func setItem(storeDomain : String, productId : String) {
         HTTPRequestManager.getJsonDataOfDetail(storeDomain: storeDomain, productId: productId) {
             (data) in
@@ -17,6 +19,26 @@ class DetailItemManager : DetailItemManagerProtocol{
             self.detailItem = result
             NotificationCenter.default.post(name: .DetailViewDataIsReady, object: nil)
         }
+    }
+    
+    func setPreviewImages(completionHandler : () -> ()) {
+        previewRealImages = []
+        HTTPRequestManager.getImageArrayUsingURLStringArray(urlStrings: previewImages) {
+            (resultArr) in
+            for data in resultArr {
+                guard let image = UIImage(data: data) else { continue }
+                self.previewRealImages.append(image)
+            }
+        }
+        completionHandler()
+    }
+    
+    func getPreviewImage(index : Int) -> UIImage {
+        return previewRealImages[index]
+    }
+    
+    var previewImageCount : Int {
+        return previewRealImages.count
     }
     
     var previewImages : [String] {

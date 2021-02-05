@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class HTTPRequestManager {
     
@@ -40,7 +41,6 @@ class HTTPRequestManager {
     
     static func getImageUsingURLString(urlString : String, completionHandler : @escaping (Data) -> Void) {
         guard let imageURL = URL(string: urlString) else { return }
-        
         if let imageData = fileManager.getImageDataFromCache(imageURL: imageURL) {
             completionHandler(imageData)
             return
@@ -54,6 +54,52 @@ class HTTPRequestManager {
                 completionHandler(data)
             }
         }.resume()
+    }
+    
+    static func getImageArrayUsingURLStringArray(urlStrings : [String], completionHandler : @escaping ([Data]) -> ()) {
+        var resultArr : [Data] = []
+        for urlString in urlStrings {
+            guard let imageURL = URL(string: urlString) else { continue }
+            if let imageData = fileManager.getImageDataFromCache(imageURL: imageURL) {
+                resultArr.append(imageData)
+                continue
+            }
+            
+            URLSession.shared.downloadTask(with: imageURL) {
+                url, urlResponse, error in
+                guard let url = url else { return }
+                fileManager.copyImageDataIntoCache(fromURL: url, targetURL: imageURL) {
+                    (data) in
+                    resultArr.append(data)
+                }
+            }.resume()
+        }
+        completionHandler(resultArr)
+    }
+    
+    static func sendPost(paramText: String, urlString: String) {
+        let url = URL(string: urlString)
+        let jsonDictionary = ["text" : paramText]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: jsonDictionary, options: []) else {
+            return
+        }
+        
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        request.httpBody = httpBody
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if let e = error {
+              NSLog("An error has occured: \(e.localizedDescription)")
+              return
+            }
+            DispatchQueue.main.async() {
+                let outputStr = String(data: data!, encoding: String.Encoding.utf8)
+                print("result: \(outputStr!)")
+            }
+        }
+        task.resume()
     }
 }
 

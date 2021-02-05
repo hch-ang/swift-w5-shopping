@@ -153,5 +153,10 @@
 
 - URLSession을 통해 받아온 data를 바로 JsonDecoder를 통해 가공하는 형식이 아니라 받아온 data를 넘겨주고 completionHandler에서 data를 가공할 수 있도록 수정
 
+### DetailView 추가 설정
 
+- DetailView에 CollectionView 추가하여 previewImages 화면에 출력
+- previewImages에 타이머를 설정하여 자동으로 페이지를 넘기도록 설정
+- 가격을 클릭했을 때 Post로 요청 보내기(no-service가 떠서 확인은 못해봤습니다)
 
+![image-20210205234404479](README.assets/image-20210205234404479.png)

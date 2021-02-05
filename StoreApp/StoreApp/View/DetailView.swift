@@ -11,13 +11,25 @@ import WebKit
 class DetailView: UIScrollView {
     private var detailItemManager : DetailItemManagerProtocol! = nil
     private var contentView = UIView()
-    private var previewImageView = UIImageView()
+    private var previewImageView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.isPagingEnabled = true
+        
+        return collectionView
+    }()
+    private var imageCount = 0
+    var timer : Timer!
+    var nowPage = 0
     private var totalProductStarRankingAndReviewCount = UILabel()
     private var productName = UILabel()
     private var standardPrice = UILabel()
     private var standardPriceLeadingAnchorConstraint : NSLayoutConstraint! = nil
     private var standardPriceCenterXAnchoerConstraint : NSLayoutConstraint! = nil
     private var discountedPrice = UILabel()
+    private var purchaseDelegate : NetworkPurchaseManagerDelegateProtocol! = nil
     private var storeName = UILabel()
     private var deliveryFee = UILabel()
     private var noticeTitle = UILabel()
@@ -26,6 +38,7 @@ class DetailView: UIScrollView {
     private var webViewTopAnchorConstraintWithNoticeCreatedAt : NSLayoutConstraint! = nil
     private var webViewTopAnchorConstraintWithDeliveryFee : NSLayoutConstraint! = nil
     private var webViewHeightAnchorConstraint : NSLayoutConstraint!
+
 
     
     func setViewLayouts() {
@@ -98,7 +111,8 @@ class DetailView: UIScrollView {
         discountedPrice.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         discountedPrice.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2/5).isActive = true
         discountedPrice.heightAnchor.constraint(equalTo: discountedPrice.widthAnchor, multiplier: 1/3).isActive = true
-        discountedPrice.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1)
+        discountedPrice.layer.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1).cgColor
+        discountedPrice.layer.cornerRadius = 25
         discountedPrice.textAlignment = .center
     }
     
@@ -112,9 +126,22 @@ class DetailView: UIScrollView {
         standardPriceCenterXAnchoerConstraint.isActive = false
         standardPrice.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2/5).isActive = true
         standardPrice.heightAnchor.constraint(equalTo: standardPrice.widthAnchor, multiplier: 1/3).isActive = true
-        standardPrice.backgroundColor = .black
+//        standardPrice.backgroundColor = .black
+        standardPrice.layer.backgroundColor = UIColor.black.cgColor
+        standardPrice.layer.cornerRadius = 25
         standardPrice.textColor = .white
         standardPrice.textAlignment = .center
+        standardPrice.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(standardPriceTouched(_:)))
+        standardPrice.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func standardPriceTouched(_ sender : UITapGestureRecognizer) {
+        purchaseDelegate.purchaseStandard()
+    }
+    
+    func setPurchaseDelegate(purchaseDelegate : NetworkPurchaseManagerDelegateProtocol) {
+        self.purchaseDelegate = purchaseDelegate
     }
     
     private func setProductName() {
@@ -160,7 +187,6 @@ class DetailView: UIScrollView {
     }
     
     func setViewData() {
-//        print(detailItemManager.getPreviewImages())
         totalProductStarRankingAndReviewCount.text = DetailViewStringMaker.makeTotalProductStarRankingAndReviewCountString(totalProductStarRating: detailItemManager.totalProductStarRating, reviewCount: detailItemManager.reviewCount)
         productName.text = detailItemManager.productName
         if DetailViewLogicHelper.isOnSale(status: detailItemManager.status) {
@@ -179,7 +205,6 @@ class DetailView: UIScrollView {
         deliveryFee.text = DetailViewStringMaker.makeDeilveryFeeString(deliveryFee: detailItemManager.deliveryFee, deliveryFeeType: detailItemManager.deliveryFeeType)
         if detailItemManager.noticeCount > 0 {
             noticeTitle.text = detailItemManager.noticeTitle
-            print(noticeTitle)
             noticeCreatedAt.text = DetailViewStringMaker.makeNoticeCreatedAtToFitStandard(createdAt: detailItemManager.noticeCreatedAt)
             webViewTopAnchorConstraintWithDeliveryFee.isActive = false
             webViewTopAnchorConstraintWithNoticeCreatedAt.isActive = true
@@ -195,6 +220,59 @@ class DetailView: UIScrollView {
     }
 }
 
+extension DetailView {
+    func setCollectionPreviewImageViewDelegate(object : UICollectionViewDelegate) {
+        previewImageView.delegate = object
+    }
+    
+    func setCollectionPreviewImageViewDataSource(object : UICollectionViewDataSource) {
+        previewImageView.dataSource = object
+    }
+    
+    func setCollectionPreviewImageViewCellobject(nib : UINib, identifier : String) {
+        previewImageView.register(nib, forCellWithReuseIdentifier: identifier)
+    }
+    
+    func reloadCollectionView() {
+        previewImageView.reloadData()
+    }
+    
+    var collectionViewFrame : CGSize {
+        return previewImageView.frame.size
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        nowPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+    }
+    
+    func createTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (Timer) in
+            self.paging()
+        }
+    }
+    
+    func invalidateTimer() {
+        if timer != nil {
+            timer.invalidate()
+        }
+    }
+    
+    func setImageCount(count : Int) {
+        imageCount = count
+    }
+    
+    func paging() {
+        if nowPage == imageCount-1 {
+            previewImageView.scrollToItem(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: .right, animated: true)
+            nowPage = 0
+            return
+        }
+        nowPage += 1
+        previewImageView.scrollToItem(at: NSIndexPath(item: nowPage, section: 0) as IndexPath, at: .right, animated: true)
+    }
+
+}
+
 extension DetailView : WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -207,3 +285,7 @@ extension DetailView : WKNavigationDelegate {
     }
 }
 
+extension Notification.Name {
+    static let StandardPriceTouched = Notification.Name("StandardPriceTouched")
+    static let DiscountedPriceTouched = Notification.Name("DiscountedPriceTouched")
+}

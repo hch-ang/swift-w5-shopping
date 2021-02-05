@@ -6,9 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
 protocol DetailItemManagerProtocol {
     func setItem(storeDomain : String, productId : String)
+    func setPreviewImages(completionHandler : () -> ())
+    func getPreviewImage(index : Int) -> UIImage
+    var previewImageCount : Int { get }
     var previewImages : [String] { get }
     var totalProductStarRating : Double { get}
     var reviewCount : Int { get }
