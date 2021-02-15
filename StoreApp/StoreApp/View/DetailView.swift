@@ -111,9 +111,16 @@ class DetailView: UIScrollView {
         discountedPrice.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         discountedPrice.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2/5).isActive = true
         discountedPrice.heightAnchor.constraint(equalTo: discountedPrice.widthAnchor, multiplier: 1/3).isActive = true
-        discountedPrice.layer.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1).cgColor
         discountedPrice.layer.cornerRadius = 25
+        
         discountedPrice.textAlignment = .center
+        discountedPrice.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(discountedPriceTouced(_:)))
+        discountedPrice.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func discountedPriceTouced(_ sender : UITapGestureRecognizer) {
+        purchaseDelegate.purchaseDiscounted()
     }
     
     private func setStandardPrice() {
@@ -192,12 +199,12 @@ class DetailView: UIScrollView {
         if DetailViewLogicHelper.isOnSale(status: detailItemManager.status) {
             standardPriceLeadingAnchorConstraint.isActive = true
             standardPriceCenterXAnchoerConstraint.isActive = false
-            discountedPrice.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1)
+            discountedPrice.layer.backgroundColor = UIColor(red: 245/255, green: 225/255, blue: 75/255, alpha: 1).cgColor
             discountedPrice.text = DetailViewStringMaker.convertDiscountedPriceIntoString(discountedPrice: detailItemManager.discountedPrice)
         } else {
             standardPriceLeadingAnchorConstraint.isActive = false
             standardPriceCenterXAnchoerConstraint.isActive = true
-            discountedPrice.backgroundColor = .white
+            discountedPrice.layer.backgroundColor = UIColor.white.cgColor
             discountedPrice.text = ""
         }
         standardPrice.text = DetailViewStringMaker.convertStandardPriceIntoString(standardPrice: detailItemManager.standardPrice)
@@ -234,6 +241,7 @@ extension DetailView {
     }
     
     func reloadCollectionView() {
+        
         previewImageView.reloadData()
     }
     
@@ -252,9 +260,14 @@ extension DetailView {
     }
     
     func invalidateTimer() {
+        print("Imvalidate")
         if timer != nil {
             timer.invalidate()
         }
+    }
+    
+    func resetPage() {
+        nowPage = 0
     }
     
     func setImageCount(count : Int) {
@@ -262,13 +275,16 @@ extension DetailView {
     }
     
     func paging() {
+        print("from page : \(nowPage)")
         if nowPage == imageCount-1 {
             previewImageView.scrollToItem(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: .right, animated: true)
             nowPage = 0
+            print("to page : \(nowPage)")
             return
         }
         nowPage += 1
         previewImageView.scrollToItem(at: NSIndexPath(item: nowPage, section: 0) as IndexPath, at: .right, animated: true)
+        print("to page : \(nowPage)")
     }
 
 }

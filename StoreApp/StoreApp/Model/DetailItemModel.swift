@@ -21,7 +21,7 @@ class DetailItemManager : DetailItemManagerProtocol{
         }
     }
     
-    func setPreviewImages(completionHandler : () -> ()) {
+    func setPreviewImages(completionHandler : @escaping () -> ()) {
         previewRealImages = []
         HTTPRequestManager.getImageArrayUsingURLStringArray(urlStrings: previewImages) {
             (resultArr) in
@@ -29,8 +29,8 @@ class DetailItemManager : DetailItemManagerProtocol{
                 guard let image = UIImage(data: data) else { continue }
                 self.previewRealImages.append(image)
             }
+            completionHandler()
         }
-        completionHandler()
     }
     
     func getPreviewImage(index : Int) -> UIImage {

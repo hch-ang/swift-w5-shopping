@@ -39,7 +39,7 @@ class DetailViewStringMaker {
     }
     
     static func convertDiscountedPriceIntoString(discountedPrice : Int) -> String {
-        return "바로 구매 \(StandardStringMaker.makeIntegerToFitStandard(num: discountedPrice))원"
+        return "톡딜가 \(StandardStringMaker.makeIntegerToFitStandard(num: discountedPrice))원"
     }
     
     static func makeDeilveryFeeString(deliveryFee : Int, deliveryFeeType : String) -> String {

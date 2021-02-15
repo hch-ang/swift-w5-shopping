@@ -118,7 +118,7 @@ extension MainViewController {
             detailViewController.setDetailItemManager(detailItemManager: detailItemManager)
             detailViewController.addObserverOfDetailViewDataIsReady()
         }
-        detailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
+        self.detailItemManager.setItem(storeDomain: storeDomain, productId: String(productId))
         self.navigationController?.pushViewController(self.detailViewController, animated: true)
     }
     

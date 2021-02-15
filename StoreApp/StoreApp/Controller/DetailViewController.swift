@@ -33,8 +33,13 @@ class DetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        detailView.invalidateTimer()
+        print("ViewWIllAppear")
         detailView.createTimer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.detailView.resetPage()
+        self.detailView.invalidateTimer()
     }
     
     @objc func viewDataIsReady() {
@@ -85,11 +90,46 @@ extension DetailViewController : NetworkPurchaseManagerDelegateProtocol {
     func purchaseStandard() {
         let buyer = "David"
         let item = detailItemManager.productName
-        let count = 3
+        let count = 1
         let price = detailItemManager.standardPrice
         let returnString = "\(buyer) \(item) \(count)개 : \(StandardStringMaker.makeIntegerToFitStandard(num: price*count))원 주문완료"
-        print(returnString)
-        HTTPRequestManager.sendPost(paramText: returnString, urlString: "https://hooks.slack.com/services/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")
-        navigationController?.popViewController(animated: true)
+//        print(returnString)
+//        HTTPRequestManager.sendPost(paramText: returnString, urlString: "https://hooks.slack.com/services/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")
+//        navigationController?.popViewController(animated: true)
+        showToast(vc: self, msg: returnString, sec: 1) {
+            self.detailView.resetPage()
+            self.detailView.invalidateTimer()
+            self.navigationController?.popViewController(animated: true)
+        }
     }
+
+    func purchaseDiscounted() {
+        let buyer = "David"
+        let item = detailItemManager.productName
+        let count = 1
+        let price = detailItemManager.discountedPrice
+        let returnString = "\(buyer) \(item) \(count)개 : \(StandardStringMaker.makeIntegerToFitStandard(num: price*count))원 주문완료"
+//        print(returnString)
+//        HTTPRequestManager.sendPost(paramText: returnString, urlString: "https://hooks.slack.com/services/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")
+//        navigationController?.popViewController(animated: true)
+        showToast(vc: self, msg: returnString, sec: 1) {
+            self.detailView.resetPage()
+            self.detailView.invalidateTimer()
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+
+    func showToast(vc: UIViewController, msg: String, sec: Double, completionHandler : @escaping () -> ()) {
+        let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+            
+        vc.present(alert, animated: true, completion: nil)
+            
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + sec) {
+            alert.dismiss(animated: true, completion: nil)
+            completionHandler()
+        }
+    }
+
 }
+

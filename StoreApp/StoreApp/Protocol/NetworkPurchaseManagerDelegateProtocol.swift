@@ -9,4 +9,5 @@ import Foundation
 
 protocol NetworkPurchaseManagerDelegateProtocol {
     func purchaseStandard() -> Void
+    func purchaseDiscounted() -> Void
 }
